@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctvg5rkma2yab"]
+
+[ext_resource type="Script" path="res://scn/MainMenu/menu.gd" id="1_8718h"]
+[ext_resource type="Texture2D" uid="uid://b1sgqdb55uiil" path="res://assets/backgrounds/mainmenu.jpg" id="2_3c7u2"]
+
+[sub_resource type="Theme" id="Theme_cfw7s"]
+
+[node name="Menu" type="Node2D"]
+script = ExtResource("1_8718h")
+
+[node name="Mainmenu" type="Sprite2D" parent="."]
+position = Vector2(640, 342.5)
+scale = Vector2(0.993789, 0.85625)
+texture = ExtResource("2_3c7u2")
+
+[node name="PlayBtn" type="Button" parent="."]
+offset_left = 503.0
+offset_top = 298.0
+offset_right = 805.0
+offset_bottom = 375.0
+theme = SubResource("Theme_cfw7s")
+text = "Играть"
+language = "ru_RU"
+metadata/_edit_use_anchors_ = true
+
+[node name="QuitBtn" type="Button" parent="."]
+offset_left = 503.0
+offset_top = 385.0
+offset_right = 805.0
+offset_bottom = 462.0
+text = "Выйти"
+language = "ru_RU"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="PlayBtn" to="." method="_on_play_btn_pressed"]
+[connection signal="pressed" from="QuitBtn" to="." method="_on_quit_btn_pressed"]

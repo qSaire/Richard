@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://mh8i7ekloai4"]
+
+[ext_resource type="Script" path="res://scn/DamageBox/damage_box.gd" id="1_68o5d"]
+
+[node name="DamageBox" type="Node2D"]
+script = ExtResource("1_68o5d")
+
+[node name="HurtBox" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtBox"]
+position = Vector2(-18.4, -12.5)
+scale = Vector2(0.371527, 0.409893)
+polygon = PackedVector2Array(96.8976, 56.1123, 118.43, 73.1899, 126.505, 100.026, 96.8976, 141.5, 67.29, 100.026, 75.3648, 73.1899)
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox"]
+position = Vector2(27.6, -35.5)
+scale = Vector2(0.408494, 0.533886)
+polygon = PackedVector2Array(12.2401, 101.145, 102.817, 101.145, 102.817, 138.606, 12.2401, 138.606)

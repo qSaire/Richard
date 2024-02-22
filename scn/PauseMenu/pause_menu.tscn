@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://cccvgfwvq38er"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 51.0
+offset_top = 21.0
+offset_right = 51.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -166.0
+offset_top = -220.0
+offset_right = 166.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.66
+anchor_right = 0.5
+anchor_bottom = 0.66
+offset_left = -116.0
+offset_top = -233.4
+offset_right = 116.0
+offset_bottom = -210.4
+text = "Пауза"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -99.0
+offset_top = -181.0
+offset_right = 100.0
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Continue" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Продолжить"
+
+[node name="Save" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Сохранить"
+
+[node name="Load" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Загрузить"
+
+[node name="Quit" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Выйти"
