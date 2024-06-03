@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cncsrnw12y3kx"
+path="res://.godot/imported/Pre Jump 8.wav-06fdeb5c407b759d9aeb4cb41deefd76.sample"
+
+[deps]
+
+source_file="res://assets/sounds/Pre Jump 8.wav"
+dest_files=["res://.godot/imported/Pre Jump 8.wav-06fdeb5c407b759d9aeb4cb41deefd76.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=1
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://bruk8vb6qg8ov"]
+
+[ext_resource type="Texture2D" uid="uid://75lxhar01m5u" path="res://assets/backgrounds/DungeonGate.png" id="1_guobo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5364r"]
+size = Vector2(95, 207)
+
+[sub_resource type="Animation" id="Animation_w5ln8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GateBody:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_th31x"]
+resource_name = "opening"
+length = 2.9
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GateBody:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.05, 0.15, 0.25, 0.35, 0.45, 0.6, 1.35, 2.1, 2.8, 2.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-2, 0), Vector2(3, 0), Vector2(-2, 0), Vector2(3, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 60), Vector2(0, 120), Vector2(0, 176), Vector2(0, 207)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ns14c"]
+_data = {
+"RESET": SubResource("Animation_w5ln8"),
+"opening": SubResource("Animation_th31x")
+}
+
+[node name="DungeonGate" type="Node2D"]
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(52, 0)
+texture = ExtResource("1_guobo")
+region_enabled = true
+region_rect = Rect2(1552, 128, 104, 208)
+
+[node name="GateBody" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="Sprite2D2" type="Sprite2D" parent="GateBody"]
+position = Vector2(42, 16)
+texture = ExtResource("1_guobo")
+region_enabled = true
+region_rect = Rect2(1442, 160, 88, 176)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GateBody"]
+position = Vector2(37.5, 0.5)
+shape = SubResource("RectangleShape2D_5364r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+texture = ExtResource("1_guobo")
+region_enabled = true
+region_rect = Rect2(1312, 128, 96, 208)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ns14c")
+}

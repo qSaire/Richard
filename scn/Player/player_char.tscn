@@ -1,7 +1,8 @@
-[gd_scene load_steps=94 format=3 uid="uid://dk72glg32n4nc"]
+[gd_scene load_steps=126 format=3 uid="uid://dk72glg32n4nc"]
 
 [ext_resource type="Script" path="res://scn/Player/player_char.gd" id="1_lf7tp"]
 [ext_resource type="Texture2D" uid="uid://b7mclecobcin5" path="res://assets/player character/knight_attackSheet.png" id="1_m74vv"]
+[ext_resource type="Shape2D" uid="uid://dmg7oo4koil1p" path="res://resources/player_standingCollisionShape.tres" id="2_1x2c7"]
 [ext_resource type="Texture2D" uid="uid://cyiad6ah8tuur" path="res://assets/player character/knight_attack2Sheet.png" id="2_dlv6c"]
 [ext_resource type="Texture2D" uid="uid://cg2bfhfdp2d2v" path="res://assets/player character/knight_deathSheet.png" id="4_8ws5n"]
 [ext_resource type="Texture2D" uid="uid://dn4u1akcmbxou" path="res://assets/player character/knight_fallSheet.png" id="5_8shtj"]
@@ -11,7 +12,25 @@
 [ext_resource type="Texture2D" uid="uid://c5xxxh1hwww2v" path="res://assets/player character/knight_crouchWalkSheet.png" id="6_nhanl"]
 [ext_resource type="Texture2D" uid="uid://dpyf38blcan3h" path="res://assets/player character/knight_crouchAllSheet.png" id="7_uy02x"]
 [ext_resource type="Texture2D" uid="uid://coiskfeunt0u2" path="res://assets/player character/knight_runSheet.png" id="9_r1iug"]
-[ext_resource type="PackedScene" uid="uid://mh8i7ekloai4" path="res://scn/DamageBox/damage_box.tscn" id="12_776aj"]
+[ext_resource type="Texture2D" uid="uid://db8cg856o6bnp" path="res://assets/player character/_WallHang.png" id="9_u4ep3"]
+[ext_resource type="Script" path="res://scn/DamageBox/damage_box.gd" id="14_6qxmp"]
+[ext_resource type="Texture2D" uid="uid://dpr8ve67gocl2" path="res://assets/player character/knight_throwAxeSheet.png" id="14_ceks1"]
+[ext_resource type="AudioStream" uid="uid://co13jl0wpn7jg" path="res://assets/sounds/throw.wav" id="15_i88ui"]
+[ext_resource type="AudioStream" uid="uid://bf71guffyk6jr" path="res://assets/sounds/swordswing.wav" id="15_tfq0q"]
+[ext_resource type="AudioStream" uid="uid://cncsrnw12y3kx" path="res://assets/sounds/Pre Jump 8.wav" id="16_g6x8u"]
+[ext_resource type="Shape2D" uid="uid://ck0cypaq6rbxm" path="res://resources/player_hurtBoxStanding.tres" id="16_la4nd"]
+[ext_resource type="AudioStream" uid="uid://c2oiys3tp3meq" path="res://assets/sounds/land in grass 6.wav" id="16_ojfvu"]
+[ext_resource type="AudioStream" uid="uid://cfqp8eqxvhxu6" path="res://assets/sounds/DIRT - Crouch Short 1.wav" id="16_qj1wn"]
+[ext_resource type="AudioStream" uid="uid://druuvdl2cyv3k" path="res://assets/sounds/land in grass 10.wav" id="17_hwqq1"]
+[ext_resource type="AudioStream" uid="uid://db4chjyeuvc7i" path="res://assets/sounds/DIRT - Crouch Short 2.wav" id="17_osnwx"]
+[ext_resource type="AudioStream" uid="uid://gohoug3ohvoo" path="res://assets/sounds/land in grass 11.wav" id="18_1rl5o"]
+[ext_resource type="AudioStream" uid="uid://cejbifustap8j" path="res://assets/sounds/DIRT - Crouch Short 3.wav" id="18_y5h24"]
+[ext_resource type="AudioStream" uid="uid://chmxrny2rrfcl" path="res://assets/sounds/land in grass 13.wav" id="19_hq1n8"]
+[ext_resource type="AudioStream" uid="uid://b04qm60wiwkvw" path="res://assets/sounds/DIRT - Crouch Short 4.wav" id="19_wfy2x"]
+[ext_resource type="AudioStream" uid="uid://b17pifm0cmf31" path="res://assets/sounds/DIRT - Crouch Short 5.wav" id="20_7p5vp"]
+[ext_resource type="AudioStream" uid="uid://b40sowj1835hd" path="res://assets/sounds/DIRT - Crouch Short 6.wav" id="21_xd1wg"]
+[ext_resource type="AudioStream" uid="uid://dxn74mfitg2qf" path="res://assets/sounds/DIRT - Crouch Short 7.wav" id="22_ht3vs"]
+[ext_resource type="AudioStream" uid="uid://d3l0qo3dtvmw5" path="res://assets/sounds/DIRT - Crouch Short 8.wav" id="23_nifw4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_el2v3"]
 atlas = ExtResource("1_m74vv")
@@ -273,6 +292,18 @@ region = Rect2(0, 0, 96, 64)
 atlas = ExtResource("7_uy02x")
 region = Rect2(96, 0, 96, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_os1re"]
+atlas = ExtResource("14_ceks1")
+region = Rect2(0, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukqgq"]
+atlas = ExtResource("14_ceks1")
+region = Rect2(96, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3k8e"]
+atlas = ExtResource("14_ceks1")
+region = Rect2(192, 0, 96, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_72p55"]
 animations = [{
 "frames": [{
@@ -443,6 +474,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("9_u4ep3")
+}],
+"loop": true,
+"name": &"hang",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_75kk8")
 }],
 "loop": false,
@@ -543,6 +582,20 @@ animations = [{
 "loop": false,
 "name": &"startCrouch",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_os1re")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukqgq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3k8e")
+}],
+"loop": false,
+"name": &"throwAxe",
+"speed": 16.0
 }]
 
 [sub_resource type="Animation" id="Animation_oa7mx"]
@@ -572,8 +625,14 @@ tracks/1/keys = {
 "values": [false]
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c71gk"]
+random_pitch = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("15_tfq0q")
+stream_0/weight = 1.0
+
 [sub_resource type="Animation" id="Animation_4ysia"]
-length = 0.222222
+length = 0.2222
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -622,6 +681,21 @@ tracks/3/keys = {
 "update": 1,
 "values": [false, true, false]
 }
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sounds")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": SubResource("AudioStreamRandomizer_c71gk")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/4/use_blend = true
 
 [sub_resource type="Animation" id="Animation_13l2b"]
 length = 0.588235
@@ -703,6 +777,63 @@ tracks/1/keys = {
 "update": 1,
 "values": ["crouchAttack"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackDirection/DamageBox/CrouchHitBox/CollisionPolygon2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0675764, 0.138738),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AttackDirection/DamageBox/CrouchHitBox/CollisionPolygon2D:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.0671612, 0.138213),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"checkRotation"
+}]
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_saved"]
+streams_count = 8
+stream_0/stream = ExtResource("16_qj1wn")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("17_osnwx")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("18_y5h24")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("19_wfy2x")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("20_7p5vp")
+stream_4/weight = 1.0
+stream_5/stream = ExtResource("21_xd1wg")
+stream_5/weight = 1.0
+stream_6/stream = ExtResource("22_ht3vs")
+stream_6/weight = 1.0
+stream_7/stream = ExtResource("23_nifw4")
+stream_7/weight = 1.0
 
 [sub_resource type="Animation" id="Animation_udrfc"]
 length = 0.8
@@ -731,6 +862,25 @@ tracks/1/keys = {
 "update": 1,
 "values": ["crouchWalk"]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sounds")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": SubResource("AudioStreamRandomizer_saved")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": SubResource("AudioStreamRandomizer_saved")
+}],
+"times": PackedFloat32Array(0.339961, 0.748278)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_agbg0"]
 length = 0.833333
@@ -814,6 +964,33 @@ tracks/1/keys = {
 "values": ["fall"]
 }
 
+[sub_resource type="Animation" id="Animation_e0bnw"]
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["hang"]
+}
+
 [sub_resource type="Animation" id="Animation_wxhgk"]
 length = 0.25
 tracks/0/type = "value"
@@ -839,6 +1016,20 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["hit"]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"getInvulnerable"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_lepkg"]
@@ -868,6 +1059,24 @@ tracks/1/keys = {
 "update": 1,
 "values": ["idle"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackDirection/GroundRayCast:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bggl3"]
+random_pitch = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("16_g6x8u")
+stream_0/weight = 1.0
 
 [sub_resource type="Animation" id="Animation_mww6v"]
 length = 0.6
@@ -896,6 +1105,56 @@ tracks/1/keys = {
 "update": 1,
 "values": ["jump"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackDirection/GroundRayCast:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sounds")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": SubResource("AudioStreamRandomizer_bggl3")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/3/use_blend = true
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xoi0e"]
+random_pitch = 1.58
+streams_count = 4
+stream_0/stream = ExtResource("16_ojfvu")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("17_hwqq1")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("18_1rl5o")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("19_hq1n8")
+stream_3/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ikncy"]
+streams_count = 4
+stream_0/stream = ExtResource("16_ojfvu")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("17_hwqq1")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("18_1rl5o")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("19_hq1n8")
+stream_3/weight = 1.0
 
 [sub_resource type="Animation" id="Animation_a2khl"]
 length = 0.588235
@@ -924,6 +1183,25 @@ tracks/1/keys = {
 "update": 1,
 "values": ["run"]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sounds")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.137315,
+"start_offset": 0.0,
+"stream": SubResource("AudioStreamRandomizer_xoi0e")
+}, {
+"end_offset": 0.486955,
+"start_offset": 0.0145179,
+"stream": SubResource("AudioStreamRandomizer_ikncy")
+}],
+"times": PackedFloat32Array(0.111284, 0.405446)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_ekosb"]
 length = 0.4
@@ -952,6 +1230,68 @@ tracks/1/keys = {
 "values": ["startCrouch"]
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qsi1e"]
+random_pitch = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("15_i88ui")
+stream_0/weight = 1.0
+
+[sub_resource type="Animation" id="Animation_xi5gj"]
+length = 0.1875
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0625, 0.125),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["throwAxe"]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0747),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"emitThrowSignal"
+}]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sounds")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": SubResource("AudioStreamRandomizer_qsi1e")
+}],
+"times": PackedFloat32Array(-0.0447636)
+}
+tracks/3/use_blend = true
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fwu0k"]
 _data = {
 "RESET": SubResource("Animation_oa7mx"),
@@ -963,40 +1303,69 @@ _data = {
 "death": SubResource("Animation_agbg0"),
 "endCrouch": SubResource("Animation_i5k3w"),
 "fall": SubResource("Animation_rr060"),
+"hang": SubResource("Animation_e0bnw"),
 "hit": SubResource("Animation_wxhgk"),
 "idle": SubResource("Animation_lepkg"),
 "jump": SubResource("Animation_mww6v"),
 "run": SubResource("Animation_a2khl"),
-"startCrouch": SubResource("Animation_ekosb")
+"startCrouch": SubResource("Animation_ekosb"),
+"throwAxe": SubResource("Animation_xi5gj")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u4p7q"]
+size = Vector2(20.0268, 1.97451)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cwfo5"]
+size = Vector2(8, 20)
+
 [node name="PlayerChar" type="CharacterBody2D"]
+scale = Vector2(3, 3)
 collision_layer = 2
+collision_mask = 5253
+floor_stop_on_slope = false
+floor_snap_length = 10.0
 script = ExtResource("1_lf7tp")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
-position = Vector2(1.21324, -8.37187)
-scale = Vector2(0.808824, 2.16797)
-polygon = PackedVector2Array(-11.3909, 13.5481, -1.5, 13.5481, 9.62727, 13.5481, 12.1, 6.62919, 12.1, 1.09405, 7.15454, -5.36361, -0.263638, -5.82487, -8.91818, -5.36361, -13.8636, 1.09405, -13.8636, 6.62919)
+[node name="CrouchingRayCasts" type="Node2D" parent="."]
+
+[node name="CrouchRayCastLeft" type="RayCast2D" parent="CrouchingRayCasts"]
+position = Vector2(-6, -1)
+target_position = Vector2(0, -17)
+collision_mask = 129
+
+[node name="CrouchRayCastCenter" type="RayCast2D" parent="CrouchingRayCasts"]
+position = Vector2(-2.33333, -1)
+target_position = Vector2(0, -19)
+collision_mask = 129
+
+[node name="CrouchRayCastCenter2" type="RayCast2D" parent="CrouchingRayCasts"]
+position = Vector2(2.33333, -1)
+target_position = Vector2(0, -19)
+
+[node name="CrouchRayCastRight" type="RayCast2D" parent="CrouchingRayCasts"]
+position = Vector2(6, -1)
+target_position = Vector2(0, -17)
+collision_mask = 129
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = ExtResource("2_1x2c7")
+debug_color = Color(0.768627, 0.443137, 0.14902, 0.419608)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-51, -51)
+position = Vector2(-52, -52)
 scale = Vector2(1.075, 1.125)
 sprite_frames = SubResource("SpriteFrames_72p55")
-animation = &"attack1"
+animation = &"idle"
 autoplay = "idle"
-frame = 2
 centered = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
-visible = false
-position = Vector2(0, -24)
+position = Vector2(0, -25)
 zoom = Vector2(1.2, 1.2)
 process_callback = 0
 limit_left = 0
 limit_top = -1000000
-limit_bottom = 1300
+limit_bottom = 3000
 limit_smoothed = true
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
@@ -1007,30 +1376,78 @@ libraries = {
 }
 autoplay = "idle"
 
+[node name="OneWayDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayDetector"]
+position = Vector2(0, 23.9167)
+scale = Vector2(0.832218, 1.43496)
+shape = SubResource("RectangleShape2D_u4p7q")
+
 [node name="AttackDirection" type="Node2D" parent="."]
+visible = false
 
-[node name="DamageBox" parent="AttackDirection" instance=ExtResource("12_776aj")]
-position = Vector2(31, -2)
+[node name="GroundRayCast" type="RayCast2D" parent="AttackDirection"]
+target_position = Vector2(8, 19.6667)
 
-[node name="HurtBox" parent="AttackDirection/DamageBox" index="0"]
+[node name="LadderDetector" type="Area2D" parent="AttackDirection"]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDirection/LadderDetector"]
+position = Vector2(4.66667, 0)
+shape = SubResource("RectangleShape2D_cwfo5")
+
+[node name="ForceBody" type="StaticBody2D" parent="AttackDirection"]
+position = Vector2(2.38419e-07, 0)
+scale = Vector2(0.275076, 0.8737)
+collision_layer = 256
+collision_mask = 128
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AttackDirection/ForceBody"]
+position = Vector2(-14.5414, 2.84217e-14)
+scale = Vector2(41.7221, 12.7523)
+polygon = PackedVector2Array(0.609929, 1.07704, 1.30699, 0.418848, 1.45221, -2.22875e-15, 0.609928, -1.10695)
+
+[node name="DamageBox" type="Node2D" parent="AttackDirection"]
+script = ExtResource("14_6qxmp")
+
+[node name="HurtBox" type="Area2D" parent="AttackDirection/DamageBox"]
 collision_layer = 8
-collision_mask = 0
+collision_mask = 64
 
-[node name="CollisionPolygon2D" parent="AttackDirection/DamageBox/HurtBox" index="0"]
-position = Vector2(-29.4688, -45)
-scale = Vector2(0.923828, 1)
-polygon = PackedVector2Array(-1.65751, 27, 4.83721, 31, 10.2495, 47, 4.83721, 63, -1.65751, 67, -8.15222, 63, -12.482, 47, -8.15222, 31)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDirection/DamageBox/HurtBox"]
+shape = ExtResource("16_la4nd")
 
-[node name="HitBox" parent="AttackDirection/DamageBox" index="1"]
+[node name="HitBox" type="Area2D" parent="AttackDirection/DamageBox"]
 collision_layer = 0
 collision_mask = 16
 
-[node name="CollisionPolygon2D" parent="AttackDirection/DamageBox/HitBox" index="0"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AttackDirection/DamageBox/HitBox"]
 visible = false
-position = Vector2(26.4015, -103)
+position = Vector2(58, -105.667)
 scale = Vector2(0.904412, 1)
-polygon = PackedVector2Array(-49.0943, 92, -14, 88, -9, 92, -6, 97, -6, 113, -9, 119, -13, 124, -49.0943, 118)
+polygon = PackedVector2Array(-49.019, 93.3333, -64.4986, 79.0003, -40.9106, 78.3337, -28.0108, 79.3337, -19.5339, 84.3337, -8.47697, 98.3337, -7.37128, 113, -8.84553, 119, -12.8997, 124, -49.0943, 118)
 
+[node name="CrouchHitBox" type="Area2D" parent="AttackDirection/DamageBox"]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AttackDirection/DamageBox/CrouchHitBox"]
+visible = false
+position = Vector2(1, 5.33333)
+polygon = PackedVector2Array(41.3333, -6.66666, 46.3333, -0.666663, 43, 5.33334, 25.3333, 11, 0, 12.6667, 5.33333, -12.3333, 25.3333, -11)
+disabled = true
+
+[node name="Sounds" type="AudioStreamPlayer" parent="."]
+volume_db = -4.0
+bus = &"Sfx"
+
+[connection signal="body_entered" from="OneWayDetector" to="." method="_on_one_way_detector_body_entered"]
+[connection signal="body_exited" from="OneWayDetector" to="." method="_on_one_way_detector_body_exited"]
+[connection signal="body_entered" from="AttackDirection/LadderDetector" to="." method="_on_ladder_detector_body_entered"]
+[connection signal="body_exited" from="AttackDirection/LadderDetector" to="." method="_on_ladder_detector_body_exited"]
+[connection signal="body_entered" from="AttackDirection/DamageBox/HurtBox" to="." method="_on_hurt_box_body_entered"]
 [connection signal="area_entered" from="AttackDirection/DamageBox/HitBox" to="." method="_on_hit_box_area_entered"]
-
-[editable path="AttackDirection/DamageBox"]
+[connection signal="area_entered" from="AttackDirection/DamageBox/CrouchHitBox" to="." method="_on_crouch_hit_box_area_entered"]

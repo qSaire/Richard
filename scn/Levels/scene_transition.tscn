@@ -1,0 +1,261 @@
+[gd_scene load_steps=16 format=3 uid="uid://b1tjneu4mwwbk"]
+
+[ext_resource type="Script" path="res://scn/Levels/scene_transition.gd" id="1_mh5ua"]
+[ext_resource type="Theme" uid="uid://ba8h2u1lk5xof" path="res://themes/btnBlack_theme.tres" id="2_40b8j"]
+[ext_resource type="Script" path="res://scn/Levels/PauseMenu.gd" id="3_1f51x"]
+[ext_resource type="Texture2D" uid="uid://ctx8hafpdpcdw" path="res://assets/UI/MenuBGFrame.png" id="3_14vb7"]
+[ext_resource type="Texture2D" uid="uid://c4cmw06dvjj0e" path="res://assets/UI/HP bar/healthbarpng.png" id="4_8dpj8"]
+[ext_resource type="Texture2D" uid="uid://6a543u2e0usk" path="res://assets/UI/HP bar/Canbarıgösterimpng.png" id="5_abq4u"]
+
+[sub_resource type="Animation" id="Animation_4dt2u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mjgdn"]
+resource_name = "fadeIn"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vs1yd"]
+resource_name = "fadeOut"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6xb31"]
+_data = {
+"RESET": SubResource("Animation_4dt2u"),
+"fadeIn": SubResource("Animation_mjgdn"),
+"fadeOut": SubResource("Animation_vs1yd")
+}
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_36phx"]
+texture = ExtResource("3_14vb7")
+region_rect = Rect2(14, 8, 694, 1179)
+modulate_color = Color(0.647059, 0.647059, 0.647059, 1)
+
+[sub_resource type="Theme" id="Theme_u518d"]
+Panel/styles/panel = SubResource("StyleBoxTexture_36phx")
+
+[sub_resource type="Animation" id="Animation_88fcc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NotificationLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_b844p"]
+resource_name = "fadeText"
+length = 3.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NotificationLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 2.8, 3.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m7r83"]
+_data = {
+"RESET": SubResource("Animation_88fcc"),
+"fadeText": SubResource("Animation_b844p")
+}
+
+[node name="SceneTransition" type="CanvasLayer"]
+process_mode = 3
+layer = 2
+script = ExtResource("1_mh5ua")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6xb31")
+}
+
+[node name="PlayerUI" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="PauseMenu" type="Control" parent="PlayerUI"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_40b8j")
+script = ExtResource("3_1f51x")
+
+[node name="Panel" type="Panel" parent="PlayerUI/PauseMenu"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = -166.0
+offset_top = -180.0
+offset_right = 166.0
+offset_bottom = 180.0
+theme = SubResource("Theme_u518d")
+
+[node name="Label" type="Label" parent="PlayerUI/PauseMenu/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 27.0
+offset_right = 60.0
+offset_bottom = 113.0
+grow_horizontal = 2
+text = "Пауза"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/PauseMenu/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -93.0
+offset_right = 105.0
+offset_bottom = 147.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Continue" type="Button" parent="PlayerUI/PauseMenu/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Продолжить"
+
+[node name="Options" type="Button" parent="PlayerUI/PauseMenu/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Настройки"
+
+[node name="Save" type="Button" parent="PlayerUI/PauseMenu/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Сохранить"
+
+[node name="Load" type="Button" parent="PlayerUI/PauseMenu/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Загрузить"
+
+[node name="Quit" type="Button" parent="PlayerUI/PauseMenu/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Выйти"
+
+[node name="HealthBar" type="TextureProgressBar" parent="PlayerUI"]
+offset_right = 265.0
+offset_bottom = 96.0
+value = 17.0
+nine_patch_stretch = true
+texture_under = ExtResource("4_8dpj8")
+texture_progress = ExtResource("5_abq4u")
+
+[node name="NotificationLabel" type="Label" parent="PlayerUI"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -340.0
+offset_top = 36.0
+offset_right = 340.0
+offset_bottom = 154.0
+grow_horizontal = 2
+auto_translate = false
+theme = ExtResource("2_40b8j")
+theme_override_font_sizes/font_size = 30
+text = "Sample"
+horizontal_alignment = 1
+autowrap_mode = 2
+max_lines_visible = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerUI"]
+libraries = {
+"": SubResource("AnimationLibrary_m7r83")
+}
+
+[connection signal="pressed" from="PlayerUI/PauseMenu/Panel/VBoxContainer/Continue" to="PlayerUI/PauseMenu" method="_on_continue_pressed"]
+[connection signal="pressed" from="PlayerUI/PauseMenu/Panel/VBoxContainer/Save" to="PlayerUI/PauseMenu" method="_on_save_pressed"]
+[connection signal="pressed" from="PlayerUI/PauseMenu/Panel/VBoxContainer/Load" to="PlayerUI/PauseMenu" method="_on_load_pressed"]
+[connection signal="pressed" from="PlayerUI/PauseMenu/Panel/VBoxContainer/Quit" to="PlayerUI/PauseMenu" method="_on_quit_pressed"]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg2b32plf1a5n"]
+
+[ext_resource type="Script" path="res://scn/Levels/transition_area.gd" id="1_jxvxm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rdqv3"]
+size = Vector2(68.5973, 140)
+
+[node name="TransitionArea" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_jxvxm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rdqv3")

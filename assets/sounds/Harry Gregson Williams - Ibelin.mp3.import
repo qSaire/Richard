@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dsbrtmfbrbgu5"
+path="res://.godot/imported/Harry Gregson Williams - Ibelin.mp3-16519be71f83aea4b9b2b5ba6441f8f1.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/Harry Gregson Williams - Ibelin.mp3"
+dest_files=["res://.godot/imported/Harry Gregson Williams - Ibelin.mp3-16519be71f83aea4b9b2b5ba6441f8f1.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,144 @@
+[gd_scene load_steps=5 format=3 uid="uid://8ssw344dgjti"]
+
+[ext_resource type="Texture2D" uid="uid://dcm80u2l6ouav" path="res://assets/backgrounds/TX Village Props Edited.png" id="1_74ycm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehcko"]
+size = Vector2(30, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t4qus"]
+size = Vector2(6.09135, 69)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0df8b"]
+size = Vector2(128, 14)
+
+[node name="OneWayPlatform" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -6)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(-54, -149)
+texture = ExtResource("1_74ycm")
+region_enabled = true
+region_rect = Rect2(12, 736, 30, 44)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-54, -149)
+shape = SubResource("RectangleShape2D_ehcko")
+
+[node name="Pin3" type="PinJoint2D" parent="."]
+position = Vector2(-54, -136)
+scale = Vector2(1.02516, 0.921229)
+node_a = NodePath("../StaticBody2D")
+node_b = NodePath("../Chain3")
+
+[node name="Chain3" type="RigidBody2D" parent="."]
+position = Vector2(108, 0)
+collision_layer = 0
+
+[node name="Sprite2D2" type="Sprite2D" parent="Chain3"]
+position = Vector2(-162, -103)
+texture = ExtResource("1_74ycm")
+region_enabled = true
+region_rect = Rect2(24, 810, 6, 64)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Chain3"]
+position = Vector2(-162.046, -102.5)
+shape = SubResource("RectangleShape2D_t4qus")
+
+[node name="Pin5" type="PinJoint2D" parent="."]
+position = Vector2(-54, -71)
+scale = Vector2(1.02516, 0.921229)
+node_a = NodePath("../Chain")
+node_b = NodePath("../Chain3")
+
+[node name="Chain" type="RigidBody2D" parent="."]
+collision_layer = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Chain"]
+position = Vector2(-54, -39)
+texture = ExtResource("1_74ycm")
+region_enabled = true
+region_rect = Rect2(24, 810, 6, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chain"]
+position = Vector2(-54.0457, -38.5)
+shape = SubResource("RectangleShape2D_t4qus")
+
+[node name="Pin" type="PinJoint2D" parent="."]
+position = Vector2(-54, -5)
+scale = Vector2(1.02516, 0.921229)
+node_a = NodePath("../RigidBody2D")
+node_b = NodePath("../Chain")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(108, -6)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(-54, -149)
+texture = ExtResource("1_74ycm")
+region_enabled = true
+region_rect = Rect2(12, 736, 30, 44)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(-54, -149)
+shape = SubResource("RectangleShape2D_ehcko")
+
+[node name="Pin4" type="PinJoint2D" parent="."]
+position = Vector2(54, -136)
+scale = Vector2(1.02516, 0.921229)
+node_a = NodePath("../StaticBody2D2")
+node_b = NodePath("../Chain4")
+
+[node name="Chain4" type="RigidBody2D" parent="."]
+position = Vector2(108, -64)
+collision_layer = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Chain4"]
+position = Vector2(-54, -39)
+texture = ExtResource("1_74ycm")
+region_enabled = true
+region_rect = Rect2(24, 810, 6, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chain4"]
+position = Vector2(-54.0457, -38.5)
+shape = SubResource("RectangleShape2D_t4qus")
+
+[node name="Pin6" type="PinJoint2D" parent="."]
+position = Vector2(54, -71)
+scale = Vector2(1.02516, 0.921229)
+node_a = NodePath("../Chain4")
+node_b = NodePath("../Chain2")
+
+[node name="Chain2" type="RigidBody2D" parent="."]
+position = Vector2(108, 0)
+collision_layer = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Chain2"]
+position = Vector2(-54, -39)
+texture = ExtResource("1_74ycm")
+region_enabled = true
+region_rect = Rect2(24, 810, 6, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chain2"]
+position = Vector2(-54.0457, -38.5)
+shape = SubResource("RectangleShape2D_t4qus")
+
+[node name="Pin2" type="PinJoint2D" parent="."]
+position = Vector2(54, -6)
+scale = Vector2(1.02516, 0.921229)
+node_a = NodePath("../RigidBody2D")
+node_b = NodePath("../Chain2")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+collision_layer = 128
+collision_mask = 385
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+texture = ExtResource("1_74ycm")
+region_enabled = true
+region_rect = Rect2(16, 896, 128, 14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("RectangleShape2D_0df8b")
+one_way_collision = true
