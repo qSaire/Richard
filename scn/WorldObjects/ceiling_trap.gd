@@ -7,3 +7,9 @@ func _on_detector_body_exited(_body):
 	if $PressurePlate/PlateAnimPlayer.is_playing():
 		await $PressurePlate/PlateAnimPlayer.animation_finished
 	$PressurePlate/PlateAnimPlayer.play("pushOut")
+
+func playLandingSound():
+	$Sounds.play()
+
+func playPushSound():
+	$PressurePlate/Sounds.play()

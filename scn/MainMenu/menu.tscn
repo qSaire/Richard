@@ -1,14 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://ctvg5rkma2yab"]
+[gd_scene load_steps=12 format=3 uid="uid://ctvg5rkma2yab"]
 
 [ext_resource type="Script" path="res://scn/MainMenu/menu.gd" id="1_8718h"]
 [ext_resource type="Texture2D" uid="uid://b1sgqdb55uiil" path="res://assets/backgrounds/mainmenu.jpg" id="2_3c7u2"]
 [ext_resource type="Theme" uid="uid://bxalubuejabn1" path="res://themes/btn_theme.tres" id="3_d7n7s"]
 [ext_resource type="Texture2D" uid="uid://d3h1il1xgq14r" path="res://assets/backgrounds/RichardTitleShd.png" id="4_x3sk8"]
 [ext_resource type="FontFile" uid="uid://cm7h7i0x8oy3g" path="res://fonts/belwebdbtrusbyme_bold.otf" id="5_8cyh0"]
-[ext_resource type="PackedScene" uid="uid://b5iunrsi280yq" path="res://scn/UI/volume_slider.tscn" id="5_sv06x"]
+[ext_resource type="Script" path="res://scn/MainMenu/VolumeOptions.gd" id="6_6vwnk"]
 [ext_resource type="AudioStream" uid="uid://dsbrtmfbrbgu5" path="res://assets/sounds/Harry Gregson Williams - Ibelin.mp3" id="7_rd8bf"]
+[ext_resource type="AudioStream" uid="uid://c483gqnox7syu" path="res://assets/sounds/button assorted 96.wav" id="8_33u4c"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n3twk"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x48uw"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
@@ -37,7 +38,13 @@ Button/colors/icon_hover_color = Color(1, 1, 1, 0)
 Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 0)
 Button/colors/icon_normal_color = Color(1, 1, 1, 0)
 Button/colors/icon_pressed_color = Color(1, 1, 1, 0)
-CheckButton/styles/focus = SubResource("StyleBoxFlat_n3twk")
+CheckButton/styles/focus = SubResource("StyleBoxFlat_x48uw")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_153s3"]
+random_pitch = 1.25
+streams_count = 1
+stream_0/stream = ExtResource("8_33u4c")
+stream_0/weight = 1.0
 
 [node name="Menu" type="Node2D"]
 process_mode = 3
@@ -187,6 +194,7 @@ offset_bottom = 141.5
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+script = ExtResource("6_6vwnk")
 
 [node name="Master" type="Label" parent="Main/Options/VolumeOptions"]
 layout_mode = 2
@@ -195,10 +203,12 @@ theme_override_colors/font_color = Color(0.870588, 0.870588, 0.870588, 1)
 text = "Общая громкость"
 horizontal_alignment = 1
 
-[node name="MasterSlider" parent="Main/Options/VolumeOptions" instance=ExtResource("5_sv06x")]
+[node name="MasterSlider" type="HSlider" parent="Main/Options/VolumeOptions"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("3_d7n7s")
-bus_name = "Master"
+max_value = 1.0
+step = 0.001
 
 [node name="Music" type="Label" parent="Main/Options/VolumeOptions"]
 layout_mode = 2
@@ -207,11 +217,13 @@ theme_override_colors/font_color = Color(0.868985, 0.868985, 0.868985, 1)
 text = "Музыка"
 horizontal_alignment = 1
 
-[node name="MusicSlider" parent="Main/Options/VolumeOptions" instance=ExtResource("5_sv06x")]
+[node name="MusicSlider" type="HSlider" parent="Main/Options/VolumeOptions"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("3_d7n7s")
+max_value = 1.0
+step = 0.001
 value = 0.5
-bus_name = "Music"
 
 [node name="SFX" type="Label" parent="Main/Options/VolumeOptions"]
 layout_mode = 2
@@ -220,11 +232,13 @@ theme_override_colors/font_color = Color(0.868985, 0.868985, 0.868985, 1)
 text = "Звуки"
 horizontal_alignment = 1
 
-[node name="SfxSlider" parent="Main/Options/VolumeOptions" instance=ExtResource("5_sv06x")]
+[node name="SfxSlider" type="HSlider" parent="Main/Options/VolumeOptions"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("3_d7n7s")
+max_value = 1.0
+step = 0.001
 value = 0.5
-bus_name = "Sfx"
 
 [node name="BackBtn" type="Button" parent="Main/Options"]
 layout_mode = 1
@@ -247,8 +261,15 @@ stream = ExtResource("7_rd8bf")
 autoplay = true
 bus = &"Music"
 
+[node name="Sounds" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_153s3")
+bus = &"Sfx"
+
 [connection signal="pressed" from="Main/VBoxContainer/PlayBtn" to="." method="_on_play_btn_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/OptionsBtn" to="." method="_on_options_btn_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/QuitBtn" to="." method="_on_quit_btn_pressed"]
 [connection signal="toggled" from="Main/Options/HBoxContainer3/HBoxContainer2/FullscreenCheckBtn" to="." method="_on_fullscreen_check_btn_toggled"]
+[connection signal="value_changed" from="Main/Options/VolumeOptions/MasterSlider" to="Main/Options/VolumeOptions" method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="Main/Options/VolumeOptions/MusicSlider" to="Main/Options/VolumeOptions" method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="Main/Options/VolumeOptions/SfxSlider" to="Main/Options/VolumeOptions" method="_on_sfx_slider_value_changed"]
 [connection signal="pressed" from="Main/Options/BackBtn" to="." method="_on_back_btn_pressed"]

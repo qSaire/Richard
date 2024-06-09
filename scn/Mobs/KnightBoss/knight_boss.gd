@@ -48,6 +48,11 @@ var player
 @onready var groundDetector = $AttackDirection/GrounDetector
 @onready var jumpBlock = $AttackDirection/JumpBlockDetector
 
+const soundDeath = preload("res://assets/sounds/HurtSound8.wav")
+const soundSword0 = preload("res://assets/sounds/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 1.wav")
+const soundSword1 = preload("res://assets/sounds/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 2.wav")
+const soundSword2 = preload("res://assets/sounds/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 3.wav")
+
 func _ready():
 	add_to_group("Persist")
 	player = get_parent().get_parent().find_child("Player").get_child(-1)
@@ -100,6 +105,13 @@ func attack():
 	velocity.x = 0
 	speed = 0
 	animPlayer.play("attack1")
+	var randStream = AudioStreamRandomizer.new()
+	randStream.add_stream(0, soundSword0)
+	randStream.add_stream(1, soundSword1)
+	randStream.add_stream(2, soundSword2)
+	randStream.random_pitch = 1.2
+	$Sounds.stream = randStream
+	$Sounds.play()
 	await animPlayer.animation_finished
 	speed = SPEED
 	currentState = STATE.RECOVER
@@ -142,6 +154,8 @@ func recover():
 
 func death():
 	is_alive = false
+	$Sounds.stream = soundDeath
+	$Sounds.play()
 	animPlayer.play("death")
 
 func _on_attack_range_body_entered(_body):

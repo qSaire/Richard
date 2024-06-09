@@ -9,8 +9,11 @@ var direction
 var is_hitTheWall = false
 var damage = 60
 
-@onready var animSprite = $AnimatedSprite2D
-@onready var animPlayer = $AnimationPlayer
+@onready var animSprite = get_node("AnimatedSprite2D")
+@onready var animPlayer = get_node("AnimationPlayer")
+
+const soundHit = preload("res://assets/sounds/Sword Impact Hit 1.wav")
+const soundLand = preload("res://assets/sounds/land in grass 10.wav")
 
 func _ready():
 	$EquipLabel.text = InputMap.action_get_events("use")[0].as_text()[0] + " Взять"
@@ -22,6 +25,13 @@ func _physics_process(delta):
 	
 	if is_on_floor():
 		is_hitTheWall = false
+		if animPlayer.is_playing() && animPlayer.current_animation != "default":
+			var randStream = AudioStreamRandomizer.new()
+			randStream.add_stream(0, soundLand)
+			randStream.random_pitch = 2
+			$Sounds.stream = randStream
+			$Sounds.play()
+		
 		animPlayer.play("default")
 		velocity.y = 0
 		velocity.x = 0
@@ -66,4 +76,9 @@ func _on_wall_detector_body_entered(_body):
 func _on_hit_area_area_entered(area):
 	is_hitTheWall = true
 	animPlayer.play("fall")
+	var randStream = AudioStreamRandomizer.new()
+	randStream.add_stream(0, soundHit)
+	randStream.random_pitch = 2
+	$Sounds.stream = randStream
+	$Sounds.play()
 	Events.emit_signal("playerAttack", damage, area)

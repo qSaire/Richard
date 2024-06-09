@@ -1,8 +1,10 @@
-[gd_scene load_steps=43 format=3 uid="uid://dl4lyre7lbaf5"]
+[gd_scene load_steps=45 format=3 uid="uid://dl4lyre7lbaf5"]
 
 [ext_resource type="Script" path="res://scn/WorldObjects/ceiling_trap.gd" id="1_0ekbu"]
 [ext_resource type="Texture2D" uid="uid://bcgaexrob3nqt" path="res://assets/objects/Ceiling Trap - Level 1.png" id="1_25cf2"]
 [ext_resource type="Texture2D" uid="uid://oaon5sfmk24r" path="res://assets/objects/plate.png" id="2_dos8v"]
+[ext_resource type="AudioStream" uid="uid://1nmj3hgxrd0v" path="res://assets/sounds/SFX/Chopping and Mining/chop 4.wav" id="3_hficd"]
+[ext_resource type="AudioStream" uid="uid://bejoqbek70pxr" path="res://assets/sounds/Wood Land.wav" id="4_r3pqr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70say"]
 size = Vector2(142, 62.375)
@@ -197,6 +199,20 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [&"default"]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.183576),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"playPushSound"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_eurr3"]
@@ -443,6 +459,20 @@ tracks/3/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.0845002),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"playLandingSound"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_abg85"]
 _data = {
@@ -494,6 +524,13 @@ collision_mask = 2182
 position = Vector2(-1.90735e-06, 167.5)
 shape = SubResource("RectangleShape2D_thmt6")
 
+[node name="Sounds" type="AudioStreamPlayer2D" parent="PressurePlate"]
+stream = ExtResource("3_hficd")
+volume_db = 8.0
+pitch_scale = 0.95
+max_distance = 950.0
+bus = &"Sfx"
+
 [node name="TrapAnimSprite" type="AnimatedSprite2D" parent="."]
 scale = Vector2(4.43062, 5.40342)
 sprite_frames = SubResource("SpriteFrames_q3w03")
@@ -504,6 +541,13 @@ libraries = {
 "": SubResource("AnimationLibrary_abg85")
 }
 autoplay = "default"
+
+[node name="Sounds" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_r3pqr")
+volume_db = 8.0
+pitch_scale = 0.45
+max_distance = 1000.0
+bus = &"Sfx"
 
 [connection signal="body_entered" from="PressurePlate/Detector" to="." method="_on_detector_body_entered"]
 [connection signal="body_exited" from="PressurePlate/Detector" to="." method="_on_detector_body_exited"]

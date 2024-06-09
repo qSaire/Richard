@@ -2,8 +2,9 @@ extends Node
 
 var isGamePaused = false
 
-@onready var pauseMenu = get_node(^"/root/SceneTransition").find_child("PlayerUI").find_child("PauseMenu")
-@onready var healthBar = get_node(^"/root/SceneTransition").find_child("PlayerUI").find_child("HealthBar")
+@onready var pauseMenu = get_node(^"/root/SceneTransition/PlayerUI/PauseMenu")
+@onready var healthBar = get_node(^"/root/SceneTransition/PlayerUI/HealthBar")
+@onready var optionsNode = get_node(^"/root/SceneTransition/PlayerUI//Options")
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -18,7 +19,8 @@ func _process(_delta):
 	else:
 		healthBar.visible = true
 	
-	if Input.is_action_just_pressed("ui_cancel") && !get_parent().has_node("Menu"):
+	if (Input.is_action_just_pressed("ui_cancel") && !get_parent().has_node("Menu") 
+	&& optionsNode != null && optionsNode.visible != true):
 		isGamePaused = !isGamePaused
 	
 	if isGamePaused == true:
@@ -48,6 +50,14 @@ func save_game():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	var saveNodes = get_tree().get_nodes_in_group("Persist")
 	var levelNode = get_tree().get_first_node_in_group("Persist")
+	var scene = PackedScene.new()
+	scene.pack(levelNode)
+	match levelNode.get_name():
+		"FirstLevel":
+			Global.savedLevels[0] = scene
+		"DungeonLevel":
+			Global.savedLevels[1] = scene
+	
 	var playerNode = levelNode.find_child("Player").get_child(0)
 	
 	# firstly saving level and player nodes
@@ -81,6 +91,7 @@ func load_game(): # not safe
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.READ)
 	# load level and delete old nodes in it
 	loadLevel(saveFile)
+	# get new nodes from loaded level
 	saveNodes = get_tree().get_nodes_in_group("Persist")
 	for i in saveNodes:
 		if i == saveNodes[0]:
@@ -108,18 +119,6 @@ func load_game(): # not safe
 				continue
 			
 			newObject.set(i, nodeData[i])
-	
-	setLevelToGlobal(get_node("/root/" + saveNodes[0].name))
-
-func setLevelToGlobal(level):
-	var scene = PackedScene.new()
-	scene.pack(level)
-	match level.get_name():
-		"FirstLevel":
-			Global.savedLevels[0] = level
-		"DungeonLevel":
-			Global.savedLevels[1] = level
-	
 
 func loadLevel(saveFile):
 	var jsonString = saveFile.get_line()
@@ -128,10 +127,7 @@ func loadLevel(saveFile):
 	var nodeData = json.get_data()
 	
 	var newObject
-	# сохраняет левел без мобов и игрока
-	#
-	#
-	if nodeData["filename"] == "":
+	if nodeData["filename"] == "" && Global.savedLevels[0] != null:
 		match nodeData["nodeName"]:
 			"FirstLevel":
 				newObject = Global.savedLevels[0].instantiate()

@@ -10,6 +10,7 @@ func _ready():
 	label.text = InputMap.action_get_events("use")[0].as_text()[0] + " Потянуть"
 	label.visible = false
 	if is_activated:
+		$Sounds.play()
 		animPlayer.play("halfRotate")
 
 func _on_player_detector_body_entered(_body):
@@ -22,4 +23,5 @@ func _on_player_detector_body_exited(_body):
 
 func _on_axe_detector_body_entered(_body):
 	is_activated = true
+	$Sounds.play()
 	animPlayer.play("halfRotate")

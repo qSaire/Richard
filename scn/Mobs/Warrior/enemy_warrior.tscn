@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://pichcjjcr5t7"]
+[gd_scene load_steps=84 format=3 uid="uid://pichcjjcr5t7"]
 
 [ext_resource type="Texture2D" uid="uid://cewinyjoy1pqt" path="res://assets/warrior/Death.png" id="1_5ewx8"]
 [ext_resource type="Script" path="res://scn/Mobs/Warrior/enemy_warrior.gd" id="1_xmfkb"]
@@ -9,7 +9,15 @@
 [ext_resource type="Texture2D" uid="uid://bclrlmonbhpmw" path="res://assets/warrior/Hit.png" id="6_1aivs"]
 [ext_resource type="Texture2D" uid="uid://b3ijca7ujfk3f" path="res://assets/warrior/Jump.png" id="8_4pj0x"]
 [ext_resource type="Texture2D" uid="uid://d3gm32vhjyxg3" path="res://assets/warrior/Run2.png" id="9_2gddr"]
+[ext_resource type="AudioStream" uid="uid://cwrmfu4d272b4" path="res://assets/sounds/SFX/Footsteps/Dirt/Dirt Run 1.wav" id="10_ci1pb"]
 [ext_resource type="Script" path="res://scn/DamageBox/damage_box.gd" id="10_g5hao"]
+[ext_resource type="AudioStream" uid="uid://d00mo86cjyi7i" path="res://assets/sounds/SFX/Footsteps/Dirt/Dirt Run 2.wav" id="11_41aj2"]
+[ext_resource type="AudioStream" uid="uid://6df1rfubnbr" path="res://assets/sounds/SFX/Footsteps/Dirt/Dirt Run 3.wav" id="12_w3mu3"]
+[ext_resource type="AudioStream" uid="uid://vjwp2dx4yg12" path="res://assets/sounds/SFX/Footsteps/Dirt/Dirt Run 4.wav" id="13_mkt2e"]
+[ext_resource type="AudioStream" uid="uid://bus0sb7hf3evx" path="res://assets/sounds/SFX/Footsteps/Dirt/Dirt Run 5.wav" id="14_lnsee"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_dunvi"]
+polygon = PackedVector2Array(-5.5, 14.75, -3, 14.75, 0, 9.25, 2.25, 14.75, 4.5, 14.75, 0.25, -10.25)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dnrhf"]
 atlas = ExtResource("2_hpd0k")
@@ -747,6 +755,19 @@ tracks/2/keys = {
 "values": [true]
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7m4tm"]
+streams_count = 5
+stream_0/stream = ExtResource("10_ci1pb")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("11_41aj2")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("12_w3mu3")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("13_mkt2e")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("14_lnsee")
+stream_4/weight = 1.0
+
 [sub_resource type="Animation" id="Animation_wfb8p"]
 length = 0.8
 loop_mode = 1
@@ -786,6 +807,25 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sounds")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": SubResource("AudioStreamRandomizer_7m4tm")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": SubResource("AudioStreamRandomizer_7m4tm")
+}],
+"times": PackedFloat32Array(0.271687, 0.670923)
+}
+tracks/3/use_blend = true
 
 [sub_resource type="Animation" id="Animation_estsi"]
 length = 0.857143
@@ -859,11 +899,14 @@ collision_layer = 4
 collision_mask = 4743
 script = ExtResource("1_xmfkb")
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_dunvi")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0.137249, -8.5)
 scale = Vector2(0.575603, 0.367187)
 sprite_frames = SubResource("SpriteFrames_3v7g4")
-animation = &"idle"
+animation = &"run"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -968,6 +1011,16 @@ collision_mask = 129
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDirection/JumpBlockDetector"]
 position = Vector2(12.602, -28.3725)
 shape = SubResource("RectangleShape2D_c3tgb")
+
+[node name="Sounds" type="AudioStreamPlayer2D" parent="."]
+volume_db = -2.0
+max_distance = 1000.0
+bus = &"Sfx"
+
+[node name="ParallelSounds" type="AudioStreamPlayer2D" parent="."]
+volume_db = -2.0
+max_distance = 1000.0
+bus = &"Sfx"
 
 [connection signal="body_entered" from="Detector" to="." method="_on_detector_body_entered"]
 [connection signal="body_exited" from="Detector" to="." method="_on_detector_body_exited"]

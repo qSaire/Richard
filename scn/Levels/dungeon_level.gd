@@ -30,6 +30,11 @@ func _ready():
 	Global.loadedLevel = scene
 
 func _process(_delta):
+	if has_node("/root/Menu"):
+		queue_free()
+	
+	player = find_child("Player").get_child(-1)
+	
 	if is_nearEntrance && Input.is_anything_pressed():
 		var scene = PackedScene.new()
 		scene.pack(self)

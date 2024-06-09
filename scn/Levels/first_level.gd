@@ -7,11 +7,12 @@ var throwableAxe = preload("res://scn/Items/throwable_axe.tscn")
 var maxHealthSpawn = Global.playerMaxHealth
 var is_leverActivated = false
 var is_nearLever = false
+var is_nearCastle = false
 
 @onready var player = find_child("Player").find_child("PlayerChar")
-@onready var healthBar = get_node(^"/root/SceneTransition").find_child("PlayerUI").find_child("HealthBar")
-@onready var playerDirection = $TransitionToDungeon.playerDirection
-@onready var playerSpawnPosition = $TransitionToDungeon.playerSpawnPosition
+@onready var healthBar = get_node(^"/root/SceneTransition/PlayerUI/HealthBar")
+@onready var playerDirection = $TriggerAreas/TransitionToDungeon.playerDirection
+@onready var playerSpawnPosition = $TriggerAreas/TransitionToDungeon.playerSpawnPosition
 
 func _ready():
 	add_to_group("Persist")
@@ -37,16 +38,27 @@ func _ready():
 	Global.loadedLevel = scene
 
 func _process(_delta):
-	if is_nearEntrance && Input.is_anything_pressed():
+	if has_node("/root/Menu"):
+		queue_free()
+	
+	player = find_child("Player").get_child(-1)
+	# enter in dungeon level
+	if (is_nearEntrance && Input.is_anything_pressed()) || (is_nearCastle && Input.is_action_just_pressed("use")):
 		var scene = PackedScene.new()
 		scene.pack(self)
 		Global.savedLevels[0] = scene
 		var nextScene
-		if Global.savedLevels[1] != null:
-			nextScene = Global.savedLevels[1]
-		else:
-			# on first enter in level
-			nextScene = preload("res://scn/Levels/dungeon_level.tscn")
+		if is_nearEntrance:
+			if Global.savedLevels[1] != null:
+				nextScene = Global.savedLevels[1]
+			else:
+				# on first enter in level
+				nextScene = preload("res://scn/Levels/dungeon_level.tscn")
+		elif is_nearCastle:
+			if Global.savedLevels[2] != null:
+				nextScene = Global.savedLevels[2]
+			else:
+				nextScene = preload("res://scn/Levels/castle_level.tscn")
 		
 		queue_free()
 		Global.playerCurrentPosition = playerSpawnPosition
@@ -122,6 +134,29 @@ func _on_axe_detector_body_entered(_body):
 	is_leverActivated = true
 	$LevelObjectsBehind/Drawbridge/StaticBody2D/DrawbridgeAnimPlayer.play("open")
 
+func _on_under_bridge_body_entered(_body):
+	var axe = get_node("Items/ThrowableAxe")
+	axe.velocity.x = 0
+	Global.throwDirection = -1
+	var tween = create_tween()
+	tween.tween_property(axe, "position", Vector2(10150, 590), 1.5)
+	tween.tween_property(axe, "position", Vector2(9918, 635), 0.4)
+
+func _on_under_bridge_area_entered(area):
+	if area.get_collision_layer_value(5) == true:
+		Events.emit_signal("playerAttack", 1000, area)
+
+func _on_castle_gate_body_entered(_body):
+	is_nearCastle = true
+	$TriggerAreas/CastleGate/GateSounds.play()
+	$TriggerAreas/CastleGate/CastleGate.visible = true
+	$TriggerAreas/CastleGate/Label.visible = true
+
+func _on_castle_gate_body_exited(_body):
+	is_nearCastle = false
+	$TriggerAreas/CastleGate/CastleGate.visible = false
+	$TriggerAreas/CastleGate/Label.visible = false
+
 func saveData():
 	var saveDict = {
 		"filename" : get_scene_file_path(),
@@ -130,6 +165,8 @@ func saveData():
 		"pos_x" : position.x,
 		"pos_y" : position.y,
 		"is_gateOpen" : is_gateOpen,
+		"is_leverActivated" : is_leverActivated,
 		"is_inPassRockArea" : is_inPassRockArea
 	}
 	return saveDict
+

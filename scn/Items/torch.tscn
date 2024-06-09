@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://v0qtcj06rfb7"]
+
+[ext_resource type="Texture2D" uid="uid://borgkpx3c0mye" path="res://assets/items/torch-C-01.png" id="1_lmypw"]
+[ext_resource type="Texture2D" uid="uid://dym8fa25rbf0f" path="res://assets/items/torch-C-02.png" id="2_bevkn"]
+[ext_resource type="Texture2D" uid="uid://cv8c6yjcdanwy" path="res://assets/items/torch-C-03.png" id="3_jgovr"]
+[ext_resource type="Texture2D" uid="uid://tkd6e2olvc1w" path="res://assets/items/torch-C-04.png" id="4_afo82"]
+[ext_resource type="Texture2D" uid="uid://dxpyimhq0ohfw" path="res://assets/items/circle.png" id="5_w3f7b"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r752t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_lmypw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_bevkn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_jgovr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_afo82")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="Torch" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2.84217e-14, -5.68434e-14)
+scale = Vector2(1.92188, 1.92188)
+sprite_frames = SubResource("SpriteFrames_r752t")
+autoplay = "default"
+frame_progress = 0.387129
+
+[node name="TextureLight" type="PointLight2D" parent="."]
+energy = 0.45
+texture = ExtResource("5_w3f7b")
+
+[node name="Shadow" type="PointLight2D" parent="."]
+energy = 1.05
+shadow_enabled = true
+texture = ExtResource("5_w3f7b")
+texture_scale = 1.4

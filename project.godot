@@ -22,15 +22,18 @@ buses/default_bus_layout="res://sounds/default_bus_layout.tres"
 
 [autoload]
 
-Global="*res://Global.gd"
+Configurator="*res://autoload scripts/Configurator.gd"
+Global="*res://autoload scripts/Global.gd"
 SceneTransition="*res://scn/Levels/scene_transition.tscn"
-Events="*res://Events.gd"
-Manager="*res://Manager.gd"
+Events="*res://autoload scripts/Events.gd"
+Manager="*res://autoload scripts/Manager.gd"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=0
 
@@ -128,3 +131,4 @@ use={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_s3tc_bptc=true

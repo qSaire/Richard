@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=3 uid="uid://dk72glg32n4nc"]
+[gd_scene load_steps=123 format=3 uid="uid://dk72glg32n4nc"]
 
 [ext_resource type="Script" path="res://scn/Player/player_char.gd" id="1_lf7tp"]
 [ext_resource type="Texture2D" uid="uid://b7mclecobcin5" path="res://assets/player character/knight_attackSheet.png" id="1_m74vv"]
@@ -16,8 +16,6 @@
 [ext_resource type="Script" path="res://scn/DamageBox/damage_box.gd" id="14_6qxmp"]
 [ext_resource type="Texture2D" uid="uid://dpr8ve67gocl2" path="res://assets/player character/knight_throwAxeSheet.png" id="14_ceks1"]
 [ext_resource type="AudioStream" uid="uid://co13jl0wpn7jg" path="res://assets/sounds/throw.wav" id="15_i88ui"]
-[ext_resource type="AudioStream" uid="uid://bf71guffyk6jr" path="res://assets/sounds/swordswing.wav" id="15_tfq0q"]
-[ext_resource type="AudioStream" uid="uid://cncsrnw12y3kx" path="res://assets/sounds/Pre Jump 8.wav" id="16_g6x8u"]
 [ext_resource type="Shape2D" uid="uid://ck0cypaq6rbxm" path="res://resources/player_hurtBoxStanding.tres" id="16_la4nd"]
 [ext_resource type="AudioStream" uid="uid://c2oiys3tp3meq" path="res://assets/sounds/land in grass 6.wav" id="16_ojfvu"]
 [ext_resource type="AudioStream" uid="uid://cfqp8eqxvhxu6" path="res://assets/sounds/DIRT - Crouch Short 1.wav" id="16_qj1wn"]
@@ -31,6 +29,9 @@
 [ext_resource type="AudioStream" uid="uid://b40sowj1835hd" path="res://assets/sounds/DIRT - Crouch Short 6.wav" id="21_xd1wg"]
 [ext_resource type="AudioStream" uid="uid://dxn74mfitg2qf" path="res://assets/sounds/DIRT - Crouch Short 7.wav" id="22_ht3vs"]
 [ext_resource type="AudioStream" uid="uid://d3l0qo3dtvmw5" path="res://assets/sounds/DIRT - Crouch Short 8.wav" id="23_nifw4"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iatkm"]
+polygon = PackedVector2Array(-7.66667, 20, -6.33333, 16, -4.33333, 4, 0.333333, -9.33333, 3.66667, 4, 5, 16, 5.66667, 20, 3, 20, 0, 7.33333, -4.33333, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_el2v3"]
 atlas = ExtResource("1_m74vv")
@@ -610,7 +611,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -624,12 +625,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [false]
 }
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c71gk"]
-random_pitch = 2.0
-streams_count = 1
-stream_0/stream = ExtResource("15_tfq0q")
-stream_0/weight = 1.0
 
 [sub_resource type="Animation" id="Animation_4ysia"]
 length = 0.2222
@@ -681,21 +676,6 @@ tracks/3/keys = {
 "update": 1,
 "values": [false, true, false]
 }
-tracks/4/type = "audio"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Sounds")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"clips": [{
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": SubResource("AudioStreamRandomizer_c71gk")
-}],
-"times": PackedFloat32Array(0)
-}
-tracks/4/use_blend = true
 
 [sub_resource type="Animation" id="Animation_13l2b"]
 length = 0.588235
@@ -749,6 +729,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["crouch"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackDirection/DamageBox/HitBox/CollisionPolygon2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_cbc3x"]
@@ -1031,6 +1023,18 @@ tracks/2/keys = {
 "method": &"getInvulnerable"
 }]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AttackDirection/DamageBox/HitBox/CollisionPolygon2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_lepkg"]
 length = 1.66667
@@ -1071,12 +1075,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bggl3"]
-random_pitch = 2.0
-streams_count = 1
-stream_0/stream = ExtResource("16_g6x8u")
-stream_0/weight = 1.0
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AttackDirection/DamageBox/HitBox/CollisionPolygon2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_mww6v"]
 length = 0.6
@@ -1117,21 +1127,6 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
-tracks/3/type = "audio"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sounds")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"clips": [{
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": SubResource("AudioStreamRandomizer_bggl3")
-}],
-"times": PackedFloat32Array(0)
-}
-tracks/3/use_blend = true
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xoi0e"]
 random_pitch = 1.58
@@ -1326,6 +1321,9 @@ floor_stop_on_slope = false
 floor_snap_length = 10.0
 script = ExtResource("1_lf7tp")
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_iatkm")
+
 [node name="CrouchingRayCasts" type="Node2D" parent="."]
 
 [node name="CrouchRayCastLeft" type="RayCast2D" parent="CrouchingRayCasts"]
@@ -1355,8 +1353,9 @@ debug_color = Color(0.768627, 0.443137, 0.14902, 0.419608)
 position = Vector2(-52, -52)
 scale = Vector2(1.075, 1.125)
 sprite_frames = SubResource("SpriteFrames_72p55")
-animation = &"idle"
+animation = &"run"
 autoplay = "idle"
+frame = 9
 centered = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -1364,7 +1363,7 @@ position = Vector2(0, -25)
 zoom = Vector2(1.2, 1.2)
 process_callback = 0
 limit_left = 0
-limit_top = -1000000
+limit_top = -3000
 limit_bottom = 3000
 limit_smoothed = true
 position_smoothing_enabled = true
@@ -1429,6 +1428,7 @@ visible = false
 position = Vector2(58, -105.667)
 scale = Vector2(0.904412, 1)
 polygon = PackedVector2Array(-49.019, 93.3333, -64.4986, 79.0003, -40.9106, 78.3337, -28.0108, 79.3337, -19.5339, 84.3337, -8.47697, 98.3337, -7.37128, 113, -8.84553, 119, -12.8997, 124, -49.0943, 118)
+disabled = true
 
 [node name="CrouchHitBox" type="Area2D" parent="AttackDirection/DamageBox"]
 collision_layer = 0
@@ -1441,6 +1441,10 @@ polygon = PackedVector2Array(41.3333, -6.66666, 46.3333, -0.666663, 43, 5.33334,
 disabled = true
 
 [node name="Sounds" type="AudioStreamPlayer" parent="."]
+volume_db = -4.0
+bus = &"Sfx"
+
+[node name="ParallelSFX" type="AudioStreamPlayer" parent="."]
 volume_db = -4.0
 bus = &"Sfx"
 

@@ -13,6 +13,7 @@ func revert_offset(parLayer: ParallaxLayer) -> void:
 	parLayer.motion_offset = ofs
 
 func _ready() -> void:
+	scroll_offset = Vector2(0, 0)
 	for parLayer in get_children():
 		if parLayer is ParallaxLayer:
 			revert_offset(parLayer)

@@ -37,7 +37,7 @@ const JUMP_VELOCITY = -470
 var speed = SPEED
 var gravity = 980
 var health = 110
-var damage = 25
+var damage = 30
 var is_alive = true
 var is_inChaseArea = false
 var direction
@@ -47,6 +47,12 @@ var player
 @onready var animSprite = $AnimatedSprite2D
 @onready var groundDetector = $AttackDirection/GrounDetector
 @onready var jumpBlock = $AttackDirection/JumpBlockDetector
+
+const soundHurt0 = preload("res://assets/sounds/HurtSound2.wav")
+const soundHurt1 = preload("res://assets/sounds/HurtSound3.wav")
+const soundSword0 = preload("res://assets/sounds/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 1.wav")
+const soundSword1 = preload("res://assets/sounds/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 2.wav")
+const soundSword2 = preload("res://assets/sounds/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 3.wav")
 
 func _ready():
 	add_to_group("Persist")
@@ -100,6 +106,13 @@ func attack():
 	velocity.x = 0
 	speed = 0
 	animPlayer.play("attack")
+	var randStream = AudioStreamRandomizer.new()
+	randStream.add_stream(0, soundSword0)
+	randStream.add_stream(1, soundSword1)
+	randStream.add_stream(2, soundSword2)
+	randStream.random_pitch = 1.2
+	$Sounds.stream = randStream
+	$Sounds.play()
 	await animPlayer.animation_finished
 	speed = SPEED
 	currentState = STATE.RECOVER
@@ -142,6 +155,12 @@ func recover():
 
 func death():
 	is_alive = false
+	var randStream = AudioStreamRandomizer.new()
+	randStream.add_stream(0, soundHurt0)
+	randStream.add_stream(1, soundHurt1)
+	randStream.random_pitch = 1.2
+	$Sounds.stream = randStream
+	$Sounds.play()
 	animPlayer.play("death")
 
 func _on_attack_range_body_entered(_body):

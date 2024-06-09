@@ -34,10 +34,19 @@ var numOfAttacksInAir = 0
 var oneWayLayer = 10
 var posBeforeFall = 0
 
-var standingCollShape = preload("res://resources/player_standingCollisionShape.tres")
-var crouchingCollShape = preload("res://resources/player_crouchingCollisionShape.tres")
-var standingHurtBox = preload("res://resources/player_hurtBoxStanding.tres")
-var crouchingHurtBox = preload("res://resources/player_hurtBoxCrouching.tres")
+const standingCollShape = preload("res://resources/player_standingCollisionShape.tres")
+const crouchingCollShape = preload("res://resources/player_crouchingCollisionShape.tres")
+const standingHurtBox = preload("res://resources/player_hurtBoxStanding.tres")
+const crouchingHurtBox = preload("res://resources/player_hurtBoxCrouching.tres")
+
+const soundJump0 = preload("res://assets/sounds/Stone Jump.wav")
+const soundJump1 = preload("res://assets/sounds/Stone Chain Jump.wav")
+const soundLand = preload("res://assets/sounds/land in grass 10.wav")
+const soundSwing = preload("res://assets/sounds/swordswing.wav")
+const swordHit = preload("res://assets/sounds/Sword Impact Hit 3.wav")
+const soundHurt = preload("res://assets/sounds/ArmorSound.wav")
+const soundHealing = preload("res://assets/sounds/HealPotion.wav")
+const soundMaxHealth = preload("res://assets/sounds/MaxHealthPotion.wav")
 
 @onready var collShape = $CollisionShape2D
 @onready var hurtBox = $AttackDirection/DamageBox/HurtBox/CollisionShape2D
@@ -103,7 +112,6 @@ func idle():
 		is_jumping = false
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		numOfAttacksInAir = 1
-		
 		if (Input.is_anything_pressed() 
 			|| (Input.is_anything_pressed() && !Input.is_action_pressed("left") && !Input.is_action_pressed("right"))):
 			currentState = STATE.MOVE
@@ -143,6 +151,8 @@ func move(direction):
 			currentState = STATE.THROW
 		
 		if Input.is_action_just_pressed("attack") && !is_cooldown:
+			if $Sounds.playing == false:
+				$Sounds.playing = false
 			currentState = STATE.ATTACK1
 		
 		if is_climbing && Input.is_action_just_pressed("jump"):
@@ -159,6 +169,11 @@ func jump(direction, delta):
 		jumpTimer = 0.0
 		is_jumping = true
 		animPlayer.play("jump")
+		var randStream = AudioStreamRandomizer.new()
+		randStream.add_stream(0, soundJump0)
+		randStream.add_stream(1, soundJump1)
+		$Sounds.stream = randStream
+		$Sounds.play()
 	elif is_on_floor() || groundRayCast.is_colliding():
 		currentState = STATE.IDLE
 	
@@ -204,6 +219,11 @@ func fall(direction, delta):
 			
 			_on_take_hit(fallDamage)
 		else:
+			var randStream = AudioStreamRandomizer.new()
+			randStream.add_stream(0, soundLand)
+			randStream.random_pitch = 2
+			$Sounds.stream = randStream
+			$Sounds.play()
 			currentState = STATE.IDLE
 
 func crouch():
@@ -265,6 +285,13 @@ func crouchWalk(direction):
 			currentState = STATE.CROUCHATTACK
 
 func crouchAttack():
+	if animPlayer.current_animation != "crouchAttack":
+		var randStream = AudioStreamRandomizer.new()
+		randStream.add_stream(0, soundSwing)
+		randStream.random_pitch = 2
+		$Sounds.stream = randStream
+		$Sounds.play()
+		
 	animPlayer.play("crouchAttack")
 	velocity.x = 0
 	await animPlayer.animation_finished
@@ -277,16 +304,28 @@ func crouchAttack():
 
 func attack():
 	if !is_on_floor() && numOfAttacksInAir >= 0:
+		if animPlayer.current_animation != "attack1":
+			var randStream = AudioStreamRandomizer.new()
+			randStream.add_stream(0, soundSwing)
+			randStream.random_pitch = 2
+			$Sounds.stream = randStream
+			$Sounds.play()
+		
 		animPlayer.play("attack1")
 		velocity.y = -40
 		velocity.x = 0
 		await animPlayer.animation_finished
-		posBeforeFall = position.y
 		currentState = STATE.FALL
 	elif !is_on_floor() && numOfAttacksInAir < 0:
-		posBeforeFall = position.y
 		currentState = STATE.FALL
 	else:
+		if animPlayer.current_animation != "attack1":
+			var randStream = AudioStreamRandomizer.new()
+			randStream.add_stream(0, soundSwing)
+			randStream.random_pitch = 2
+			$ParallelSFX.stream = randStream
+			$ParallelSFX.play()
+		
 		animPlayer.play("attack1")
 		velocity.x = 0
 		await animPlayer.animation_finished
@@ -294,13 +333,19 @@ func attack():
 		if Input.is_action_pressed("left") || Input.is_action_pressed("right"):
 			currentState = STATE.MOVE
 		elif !is_on_floor():
-			posBeforeFall = position.y
 			currentState = STATE.FALL
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			currentState = STATE.IDLE
 
 func takeHit():
+	if animPlayer.current_animation != "hit":
+		var randStream = AudioStreamRandomizer.new()
+		randStream.add_stream(0, soundHurt)
+		randStream.random_pitch = 1.5
+		$ParallelSFX.stream = randStream
+		$ParallelSFX.play()
+	
 	velocity.x = 0
 	velocity.y = 0
 	if checkForUpCollision() == false:
@@ -311,11 +356,18 @@ func takeHit():
 		currentState = STATE.CROUCH
 
 func death():
-	velocity.x = 0
-	velocity.y = 100
-	animPlayer.play("death")
-	await animPlayer.animation_finished
-	Events.emit_signal("playerDeath")
+	if animPlayer.current_animation != "death":
+		var randStream = AudioStreamRandomizer.new()
+		randStream.add_stream(0, soundHurt)
+		randStream.random_pitch = 1.5
+		$ParallelSFX.stream = randStream
+		$ParallelSFX.play()
+		velocity.x = 0
+		velocity.y = 100
+		animPlayer.play("death")
+		await animPlayer.animation_finished
+		Events.emit_signal("playerDeath")
+		set_physics_process(false)
 
 func changeHorizontalPos(direction):
 	if direction:
@@ -329,7 +381,7 @@ func changeHorizontalPos(direction):
 		
 		if  groundRayCast.is_colliding() || (currentState == STATE.MOVE && velocity.y == 0):
 			animPlayer.play("run")
-			
+		
 		if currentState == STATE.CROUCHWALK && velocity.y == 0:
 			animPlayer.play("crouchWalk")
 	else:
@@ -439,9 +491,19 @@ func checkForUpCollision():
 	return false
 
 func _on_hit_box_area_entered(area):
+	var randStream = AudioStreamRandomizer.new()
+	randStream.add_stream(0, swordHit)
+	randStream.random_pitch = 2
+	$Sounds.stream = randStream
+	$Sounds.play()
 	Events.emit_signal("playerAttack", damage, area)
 
 func _on_crouch_hit_box_area_entered(area):
+	var randStream = AudioStreamRandomizer.new()
+	randStream.add_stream(0, swordHit)
+	randStream.random_pitch = 2
+	$Sounds.stream = randStream
+	$Sounds.play()
 	Events.emit_signal("playerAttack", damage, area)
 
 func _on_ladder_detector_body_entered(_body):
@@ -464,6 +526,8 @@ func _on_take_hit(enemyDamage):
 
 # heal
 func _on_pick_health_potion(healPoints):
+	$ParallelSFX.stream = soundHealing
+	$ParallelSFX.play()
 	currentHealth += healPoints
 	if currentHealth > maxHealth:
 		currentHealth = maxHealth
@@ -471,6 +535,8 @@ func _on_pick_health_potion(healPoints):
 	Events.emit_signal("healthChanged", currentHealth)
 
 func _on_pick_max_health_potion(healPoints):
+	$ParallelSFX.stream = soundMaxHealth
+	$ParallelSFX.play()
 	maxHealth += healPoints
 	Events.emit_signal("maxHealthChanged", maxHealth)
 

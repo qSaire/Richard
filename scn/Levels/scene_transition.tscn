@@ -1,11 +1,15 @@
-[gd_scene load_steps=16 format=3 uid="uid://b1tjneu4mwwbk"]
+[gd_scene load_steps=23 format=3 uid="uid://b1tjneu4mwwbk"]
 
 [ext_resource type="Script" path="res://scn/Levels/scene_transition.gd" id="1_mh5ua"]
 [ext_resource type="Theme" uid="uid://ba8h2u1lk5xof" path="res://themes/btnBlack_theme.tres" id="2_40b8j"]
 [ext_resource type="Script" path="res://scn/Levels/PauseMenu.gd" id="3_1f51x"]
 [ext_resource type="Texture2D" uid="uid://ctx8hafpdpcdw" path="res://assets/UI/MenuBGFrame.png" id="3_14vb7"]
 [ext_resource type="Texture2D" uid="uid://c4cmw06dvjj0e" path="res://assets/UI/HP bar/healthbarpng.png" id="4_8dpj8"]
+[ext_resource type="FontFile" uid="uid://cm7h7i0x8oy3g" path="res://fonts/belwebdbtrusbyme_bold.otf" id="5_3mt17"]
 [ext_resource type="Texture2D" uid="uid://6a543u2e0usk" path="res://assets/UI/HP bar/Canbarıgösterimpng.png" id="5_abq4u"]
+[ext_resource type="Theme" uid="uid://bxalubuejabn1" path="res://themes/btn_theme.tres" id="6_bwdxh"]
+[ext_resource type="Script" path="res://scn/MainMenu/VolumeOptions.gd" id="7_d2l42"]
+[ext_resource type="AudioStream" uid="uid://c483gqnox7syu" path="res://assets/sounds/button assorted 96.wav" id="10_ov7lo"]
 
 [sub_resource type="Animation" id="Animation_4dt2u"]
 length = 0.001
@@ -93,6 +97,37 @@ modulate_color = Color(0.647059, 0.647059, 0.647059, 1)
 [sub_resource type="Theme" id="Theme_u518d"]
 Panel/styles/panel = SubResource("StyleBoxTexture_36phx")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n3twk"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="Theme" id="Theme_76t7c"]
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0)
+Button/colors/icon_focus_color = Color(1, 1, 1, 0)
+Button/colors/icon_hover_color = Color(1, 1, 1, 0)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 0)
+Button/colors/icon_normal_color = Color(1, 1, 1, 0)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 0)
+CheckButton/styles/focus = SubResource("StyleBoxFlat_n3twk")
+
 [sub_resource type="Animation" id="Animation_88fcc"]
 length = 0.001
 tracks/0/type = "value"
@@ -129,6 +164,12 @@ _data = {
 "RESET": SubResource("Animation_88fcc"),
 "fadeText": SubResource("Animation_b844p")
 }
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_cqyk4"]
+random_pitch = 1.25
+streams_count = 1
+stream_0/stream = ExtResource("10_ov7lo")
+stream_0/weight = 1.0
 
 [node name="SceneTransition" type="CanvasLayer"]
 process_mode = 3
@@ -185,6 +226,8 @@ offset_top = 27.0
 offset_right = 60.0
 offset_bottom = 113.0
 grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
 text = "Пауза"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -224,6 +267,186 @@ text = "Загрузить"
 layout_mode = 2
 text = "Выйти"
 
+[node name="Options" type="Control" parent="PlayerUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="PlayerUI/Options"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -270.0
+offset_top = 112.0
+offset_right = 270.0
+offset_bottom = 664.0
+grow_horizontal = 2
+theme = SubResource("Theme_u518d")
+
+[node name="Video" type="Label" parent="PlayerUI/Options"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -195.0
+offset_top = 196.0
+offset_right = 195.0
+offset_bottom = 231.0
+grow_horizontal = 2
+theme = ExtResource("2_40b8j")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 28
+text = "Видео"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/Options"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -195.0
+offset_top = 230.0
+offset_right = 195.0
+offset_bottom = 303.0
+grow_horizontal = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PlayerUI/Options/VBoxContainer"]
+layout_mode = 2
+
+[node name="FullscreenCheckBtn" type="CheckButton" parent="PlayerUI/Options/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme = SubResource("Theme_76t7c")
+theme_override_colors/font_color = Color(0.868985, 0.868985, 0.868985, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/h_separation = 15
+theme_override_constants/check_v_offset = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("5_3mt17")
+theme_override_font_sizes/font_size = 22
+text = "Полноэкранный режим"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/Options/VBoxContainer"]
+layout_mode = 2
+
+[node name="Resolution" type="Label" parent="PlayerUI/Options/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_bwdxh")
+theme_override_colors/font_color = Color(0.870588, 0.870588, 0.870588, 1)
+text = " Разрешение экрана"
+horizontal_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="PlayerUI/Options/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_bwdxh")
+item_count = 2
+selected = 0
+popup/item_0/text = "1920 x 1080"
+popup/item_0/id = 0
+popup/item_1/text = "1280 x 1024"
+popup/item_1/id = 1
+
+[node name="Audio" type="Label" parent="PlayerUI/Options"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -195.0
+offset_top = -41.0
+offset_right = 195.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_40b8j")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 28
+text = "Аудио"
+horizontal_alignment = 1
+
+[node name="VolumeOptions" type="VBoxContainer" parent="PlayerUI/Options"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -195.0
+offset_top = -4.0
+offset_right = 195.0
+offset_bottom = 157.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("7_d2l42")
+
+[node name="Master" type="Label" parent="PlayerUI/Options/VolumeOptions"]
+layout_mode = 2
+theme = ExtResource("6_bwdxh")
+theme_override_colors/font_color = Color(0.870588, 0.870588, 0.870588, 1)
+text = "Общая громкость"
+horizontal_alignment = 1
+
+[node name="MasterSlider" type="HSlider" parent="PlayerUI/Options/VolumeOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("2_40b8j")
+max_value = 1.0
+step = 0.001
+
+[node name="Music" type="Label" parent="PlayerUI/Options/VolumeOptions"]
+layout_mode = 2
+theme = ExtResource("6_bwdxh")
+theme_override_colors/font_color = Color(0.868985, 0.868985, 0.868985, 1)
+text = "Музыка"
+horizontal_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="PlayerUI/Options/VolumeOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("2_40b8j")
+max_value = 1.0
+step = 0.001
+value = 0.5
+
+[node name="SFX" type="Label" parent="PlayerUI/Options/VolumeOptions"]
+layout_mode = 2
+theme = ExtResource("6_bwdxh")
+theme_override_colors/font_color = Color(0.868985, 0.868985, 0.868985, 1)
+text = "Звуки"
+horizontal_alignment = 1
+
+[node name="SfxSlider" type="HSlider" parent="PlayerUI/Options/VolumeOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("2_40b8j")
+max_value = 1.0
+step = 0.001
+value = 0.5
+
+[node name="BackBtn" type="Button" parent="PlayerUI/Options"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -86.5
+offset_top = -171.0
+offset_right = 86.5
+offset_bottom = -110.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_40b8j")
+text = "Назад"
+
 [node name="HealthBar" type="TextureProgressBar" parent="PlayerUI"]
 offset_right = 265.0
 offset_bottom = 96.0
@@ -244,6 +467,8 @@ offset_bottom = 154.0
 grow_horizontal = 2
 auto_translate = false
 theme = ExtResource("2_40b8j")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 30
 text = "Sample"
 horizontal_alignment = 1
@@ -255,7 +480,17 @@ libraries = {
 "": SubResource("AnimationLibrary_m7r83")
 }
 
+[node name="Sounds" type="AudioStreamPlayer" parent="PlayerUI"]
+stream = SubResource("AudioStreamRandomizer_cqyk4")
+bus = &"Sfx"
+
 [connection signal="pressed" from="PlayerUI/PauseMenu/Panel/VBoxContainer/Continue" to="PlayerUI/PauseMenu" method="_on_continue_pressed"]
+[connection signal="pressed" from="PlayerUI/PauseMenu/Panel/VBoxContainer/Options" to="PlayerUI/PauseMenu" method="_on_options_pressed"]
 [connection signal="pressed" from="PlayerUI/PauseMenu/Panel/VBoxContainer/Save" to="PlayerUI/PauseMenu" method="_on_save_pressed"]
 [connection signal="pressed" from="PlayerUI/PauseMenu/Panel/VBoxContainer/Load" to="PlayerUI/PauseMenu" method="_on_load_pressed"]
 [connection signal="pressed" from="PlayerUI/PauseMenu/Panel/VBoxContainer/Quit" to="PlayerUI/PauseMenu" method="_on_quit_pressed"]
+[connection signal="toggled" from="PlayerUI/Options/VBoxContainer/HBoxContainer2/FullscreenCheckBtn" to="PlayerUI/PauseMenu" method="_on_fullscreen_check_btn_toggled"]
+[connection signal="value_changed" from="PlayerUI/Options/VolumeOptions/MasterSlider" to="PlayerUI/Options/VolumeOptions" method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="PlayerUI/Options/VolumeOptions/MusicSlider" to="PlayerUI/Options/VolumeOptions" method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="PlayerUI/Options/VolumeOptions/SfxSlider" to="PlayerUI/Options/VolumeOptions" method="_on_sfx_slider_value_changed"]
+[connection signal="pressed" from="PlayerUI/Options/BackBtn" to="PlayerUI/PauseMenu" method="_on_back_btn_pressed"]
