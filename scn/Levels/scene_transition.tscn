@@ -332,6 +332,7 @@ theme_override_font_sizes/font_size = 22
 text = "Полноэкранный режим"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/Options/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Resolution" type="Label" parent="PlayerUI/Options/VBoxContainer/HBoxContainer"]
@@ -447,6 +448,82 @@ grow_vertical = 0
 theme = ExtResource("2_40b8j")
 text = "Назад"
 
+[node name="GameOverWindow" type="Control" parent="PlayerUI"]
+process_mode = 2
+visible = false
+custom_minimum_size = Vector2(310, 340)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="PlayerUI/GameOverWindow"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -166.0
+offset_top = -180.0
+offset_right = 166.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_u518d")
+
+[node name="Label" type="Label" parent="PlayerUI/GameOverWindow/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = -128.0
+offset_right = 88.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_40b8j")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "Вы прошли игру!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/GameOverWindow/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -85.0
+offset_right = 105.0
+offset_bottom = 155.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_40b8j")
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Continue" type="Button" parent="PlayerUI/GameOverWindow/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Продолжить"
+
+[node name="Quit" type="Button" parent="PlayerUI/GameOverWindow/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Выйти в 
+главное меню"
+
 [node name="HealthBar" type="TextureProgressBar" parent="PlayerUI"]
 offset_right = 265.0
 offset_bottom = 96.0
@@ -494,3 +571,5 @@ bus = &"Sfx"
 [connection signal="value_changed" from="PlayerUI/Options/VolumeOptions/MusicSlider" to="PlayerUI/Options/VolumeOptions" method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="PlayerUI/Options/VolumeOptions/SfxSlider" to="PlayerUI/Options/VolumeOptions" method="_on_sfx_slider_value_changed"]
 [connection signal="pressed" from="PlayerUI/Options/BackBtn" to="PlayerUI/PauseMenu" method="_on_back_btn_pressed"]
+[connection signal="pressed" from="PlayerUI/GameOverWindow/Panel/VBoxContainer/Continue" to="PlayerUI/PauseMenu" method="_on_continue_pressed"]
+[connection signal="pressed" from="PlayerUI/GameOverWindow/Panel/VBoxContainer/Quit" to="PlayerUI/PauseMenu" method="_on_quit_pressed"]

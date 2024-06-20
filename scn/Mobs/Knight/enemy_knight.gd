@@ -119,7 +119,7 @@ func attack():
 
 func fall():
 	animPlayer.play("fall")
-	if is_inChaseArea:
+	if is_inChaseArea && direction != null:
 		velocity.x = direction.x * speed
 
 func jump():

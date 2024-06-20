@@ -464,7 +464,7 @@ func emitThrowSignal():
 # cooldown between attacks
 func setOnCooldown():
 	is_cooldown = true
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.65).timeout
 	is_cooldown = false
 
 # invulnerability after take damage

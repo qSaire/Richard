@@ -36,7 +36,7 @@ const JUMP_VELOCITY = -490
 
 var speed = SPEED
 var gravity = 980
-var health = 200
+var health = 220
 var damage = 35
 var is_alive = true
 var is_inChaseArea = false
@@ -48,7 +48,7 @@ var player
 @onready var groundDetector = $AttackDirection/GrounDetector
 @onready var jumpBlock = $AttackDirection/JumpBlockDetector
 
-const soundDeath = preload("res://assets/sounds/HurtSound8.wav")
+const soundDeath = preload("res://assets/sounds/BloodSound1.wav")
 const soundSword0 = preload("res://assets/sounds/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 1.wav")
 const soundSword1 = preload("res://assets/sounds/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 2.wav")
 const soundSword2 = preload("res://assets/sounds/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 3.wav")
@@ -74,6 +74,7 @@ func _physics_process(delta):
 	else:
 		await animPlayer.animation_finished
 		# queue_free() caused an error
+		Events.emit_signal("bossDefeated")
 		Events.emit_signal("mobDeath", $".")
 	
 	move_and_slide()

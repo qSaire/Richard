@@ -4,7 +4,8 @@ var isGamePaused = false
 
 @onready var pauseMenu = get_node(^"/root/SceneTransition/PlayerUI/PauseMenu")
 @onready var healthBar = get_node(^"/root/SceneTransition/PlayerUI/HealthBar")
-@onready var optionsNode = get_node(^"/root/SceneTransition/PlayerUI//Options")
+@onready var optionsNode = get_node(^"/root/SceneTransition/PlayerUI/Options")
+@onready var gameOverWindow = get_node(^"/root/SceneTransition/PlayerUI/GameOverWindow")
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -12,6 +13,7 @@ func _ready():
 	Events.connect("quitPressed", Callable(self, "_on_quit_pressed"))
 	Events.connect("savePressed", Callable(self, "_on_save_pressed"))
 	Events.connect("loadPressed", Callable(self, "_on_load_pressed"))
+	Events.connect("bossDefeated", Callable(self, "_on_boss_defeated"))
 
 func _process(_delta):
 	if get_parent().has_node("Menu"):
@@ -20,7 +22,8 @@ func _process(_delta):
 		healthBar.visible = true
 	
 	if (Input.is_action_just_pressed("ui_cancel") && !get_parent().has_node("Menu") 
-	&& optionsNode != null && optionsNode.visible != true):
+	&& optionsNode != null && optionsNode.visible != true
+	&& gameOverWindow != null && gameOverWindow.visible != true):
 		isGamePaused = !isGamePaused
 	
 	if isGamePaused == true:
@@ -46,6 +49,11 @@ func _on_load_pressed():
 	load_game()
 	isGamePaused = !isGamePaused
 
+func _on_boss_defeated():
+	isGamePaused = true
+	pauseMenu.hide()
+	gameOverWindow.show()
+
 func save_game():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	var saveNodes = get_tree().get_nodes_in_group("Persist")
@@ -57,6 +65,8 @@ func save_game():
 			Global.savedLevels[0] = scene
 		"DungeonLevel":
 			Global.savedLevels[1] = scene
+		"CastleLevel":
+			Global.savedLevels[2] = scene
 	
 	var playerNode = levelNode.find_child("Player").get_child(0)
 	
@@ -133,6 +143,8 @@ func loadLevel(saveFile):
 				newObject = Global.savedLevels[0].instantiate()
 			"DungeonLevel":
 				newObject = Global.savedLevels[1].instantiate()
+			"CastleLevel":
+				newObject = Global.savedLevels[2].instantiate()
 	else:
 		newObject = load(nodeData["filename"]).instantiate()
 	

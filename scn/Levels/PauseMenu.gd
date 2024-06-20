@@ -12,6 +12,8 @@ func _process(_delta):
 
 func _on_continue_pressed():
 	$"../Sounds".play()
+	if $"../GameOverWindow".visible == true:
+		$"../GameOverWindow".hide()
 	Events.emit_signal("continuePressed")
 
 func _on_options_pressed():
@@ -46,4 +48,6 @@ func _on_load_pressed():
 
 func _on_quit_pressed():
 	$"../Sounds".play()
+	if $"../GameOverWindow".visible == true:
+		$"../GameOverWindow".hide()
 	Events.emit_signal("quitPressed")

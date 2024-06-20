@@ -6,6 +6,7 @@ var throwableAxe = preload("res://scn/Items/throwable_axe.tscn")
 var maxHealthSpawn = Global.playerMaxHealth
 var is_nearLever = false
 var is_leverActivated = false
+var is_axePicked = false
 
 @onready var player = find_child("Player").find_child("PlayerChar")
 @onready var healthBar = get_node(^"/root/SceneTransition").find_child("PlayerUI").find_child("HealthBar")
@@ -28,6 +29,8 @@ func _ready():
 	scene.pack(self)
 	maxHealthSpawn = Global.playerMaxHealth
 	Global.loadedLevel = scene
+	
+	Global.is_dungeonGateOpen = true
 
 func _process(_delta):
 	if has_node("/root/Menu"):
@@ -53,6 +56,8 @@ func _process(_delta):
 		else:
 			$LevelObjectsBehind/Lever/LeverAnimSprite.flip_h = !$LevelObjectsBehind/Lever/LeverAnimSprite.flip_h
 			$LevelObjectsBehind/Lever/LeverAnimPlayer.play("fullRotate")
+	
+	is_axePicked = Global.is_axePicked
 
 func _on_player_char_health_changed(health):
 	healthBar.value = health
@@ -115,6 +120,7 @@ func saveData():
 		"filename" : get_scene_file_path(),
 		"nodeName" : "DungeonLevel",
 		"parent" : get_parent().get_path(),
+		"is_axePicked" : is_axePicked,
 		"pos_x" : position.x,
 		"pos_y" : position.y
 	}

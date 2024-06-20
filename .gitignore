@@ -1,3 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 assets/
+Richard (F+).exe
+Richard.exe
+Richard.exe
+*.exe

@@ -13,6 +13,7 @@ config_version=5
 config/name="Richard"
 run/main_scene="res://scn/MainMenu/menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+run/max_fps=150
 boot_splash/show_image=false
 config/icon="res://icon.svg"
 
@@ -131,4 +132,5 @@ use={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
 textures/vram_compression/import_s3tc_bptc=true

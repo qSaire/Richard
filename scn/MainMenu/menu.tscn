@@ -122,22 +122,22 @@ theme_override_font_sizes/font_size = 28
 text = "Видео"
 horizontal_alignment = 1
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Main/Options"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="Main/Options"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -487.0
-offset_top = 139.0
-offset_right = 487.0
-offset_bottom = 179.0
+offset_left = -188.0
+offset_top = 125.0
+offset_right = 188.0
+offset_bottom = 204.0
 grow_horizontal = 2
-theme_override_constants/separation = 280
+theme_override_constants/separation = 10
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Main/Options/HBoxContainer3"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Main/Options/VBoxContainer3"]
 layout_mode = 2
 
-[node name="FullscreenCheckBtn" type="CheckButton" parent="Main/Options/HBoxContainer3/HBoxContainer2"]
+[node name="FullscreenCheckBtn" type="CheckButton" parent="Main/Options/VBoxContainer3/HBoxContainer2"]
 layout_mode = 2
 theme = SubResource("Theme_6uyxn")
 theme_override_colors/font_color = Color(0.868985, 0.868985, 0.868985, 1)
@@ -149,17 +149,18 @@ theme_override_fonts/font = ExtResource("5_8cyh0")
 theme_override_font_sizes/font_size = 22
 text = "Полноэкранный режим"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Main/Options/HBoxContainer3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Main/Options/VBoxContainer3"]
+visible = false
 layout_mode = 2
 
-[node name="Resolution" type="Label" parent="Main/Options/HBoxContainer3/HBoxContainer"]
+[node name="Resolution" type="Label" parent="Main/Options/VBoxContainer3/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_d7n7s")
 theme_override_colors/font_color = Color(0.870588, 0.870588, 0.870588, 1)
 text = "Разрешение экрана"
 horizontal_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="Main/Options/HBoxContainer3/HBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="Main/Options/VBoxContainer3/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_d7n7s")
 item_count = 2
@@ -268,7 +269,7 @@ bus = &"Sfx"
 [connection signal="pressed" from="Main/VBoxContainer/PlayBtn" to="." method="_on_play_btn_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/OptionsBtn" to="." method="_on_options_btn_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/QuitBtn" to="." method="_on_quit_btn_pressed"]
-[connection signal="toggled" from="Main/Options/HBoxContainer3/HBoxContainer2/FullscreenCheckBtn" to="." method="_on_fullscreen_check_btn_toggled"]
+[connection signal="toggled" from="Main/Options/VBoxContainer3/HBoxContainer2/FullscreenCheckBtn" to="." method="_on_fullscreen_check_btn_toggled"]
 [connection signal="value_changed" from="Main/Options/VolumeOptions/MasterSlider" to="Main/Options/VolumeOptions" method="_on_master_slider_value_changed"]
 [connection signal="value_changed" from="Main/Options/VolumeOptions/MusicSlider" to="Main/Options/VolumeOptions" method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="Main/Options/VolumeOptions/SfxSlider" to="Main/Options/VolumeOptions" method="_on_sfx_slider_value_changed"]

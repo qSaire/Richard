@@ -5,9 +5,9 @@ var levelScene = Global.loadedLevel
 func _ready():
 	levelScene = Global.loadedLevel
 	if Configurator.config.get_value("Video", "fullscreen") == DisplayServer.WINDOW_MODE_FULLSCREEN:
-		$Main/Options/HBoxContainer3/HBoxContainer2/FullscreenCheckBtn.button_pressed = true
+		$Main/Options/VBoxContainer3/HBoxContainer2/FullscreenCheckBtn.button_pressed = true
 	else:
-		$Main/Options/HBoxContainer3/HBoxContainer2/FullscreenCheckBtn.button_pressed = false
+		$Main/Options/VBoxContainer3/HBoxContainer2/FullscreenCheckBtn.button_pressed = false
 
 func _on_quit_btn_pressed():
 	$Sounds.play()

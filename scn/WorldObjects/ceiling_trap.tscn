@@ -508,8 +508,7 @@ shape = SubResource("RectangleShape2D_8g8el")
 position = Vector2(0, 146)
 scale = Vector2(1.67776, 1.67776)
 sprite_frames = SubResource("SpriteFrames_skb8g")
-animation = &"pushOut"
-frame = 5
+animation = &"push"
 
 [node name="PlateAnimPlayer" type="AnimationPlayer" parent="PressurePlate"]
 libraries = {
@@ -521,6 +520,7 @@ collision_layer = 0
 collision_mask = 2182
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PressurePlate/Detector"]
+visible = false
 position = Vector2(-1.90735e-06, 167.5)
 shape = SubResource("RectangleShape2D_thmt6")
 

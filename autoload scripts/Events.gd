@@ -1,5 +1,6 @@
 extends Node
 
+signal bossDefeated()
 signal enemyAttack(enemyDamage)
 signal playerAttack(playerDamage, area)
 signal throwAxe(direction)

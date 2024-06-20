@@ -25,7 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://dg2b32plf1a5n" path="res://scn/Levels/transition_area.tscn" id="21_6lrqi"]
 [ext_resource type="Texture2D" uid="uid://75lxhar01m5u" path="res://assets/backgrounds/DungeonGate.png" id="21_xns1t"]
 [ext_resource type="AudioStream" uid="uid://ok881073huge" path="res://assets/sounds/lever big 1.wav" id="22_l6rhr"]
-[ext_resource type="PackedScene" uid="uid://k8wbuypt2io5" path="res://scn/Mobs/KnightBoss/knight_boss.tscn" id="23_xlvgf"]
+[ext_resource type="Script" path="res://scn/Levels/transition_area.gd" id="28_24n4y"]
 [ext_resource type="AudioStream" uid="uid://bd4706khdafx5" path="res://assets/sounds/Rock Wall 2.wav" id="28_77ci8"]
 [ext_resource type="AudioStream" uid="uid://ctp28hstmhhvx" path="res://assets/sounds/BGS Loops/Forest Day/Forest Day.wav" id="30_g0fir"]
 [ext_resource type="Texture2D" uid="uid://bhupdnjhy7o4u" path="res://assets/objects/castleGate.png" id="31_p41wd"]
@@ -1329,18 +1329,16 @@ sources/0 = SubResource("TileSetAtlasSource_66cpf")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gan0a"]
 size = Vector2(325, 112)
 
-[sub_resource type="GDScript" id="GDScript_6mlcn"]
-script/source = "extends Area2D
-
-@onready var label = $Label
-
-func _ready():
-	label.text = InputMap.action_get_events(\"use\")[0].as_text()[0] + \" Войти\"
-	label.visible = false
-"
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iwbb3"]
 size = Vector2(128, 136)
+
+[sub_resource type="GDScript" id="GDScript_x6qtx"]
+script/source = "extends Label
+
+func _ready():
+	text = InputMap.action_get_events(\"use\")[0].as_text()[0] + \" Войти\"
+	visible = false
+"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gorju"]
 texture = ExtResource("7_o2jbt")
@@ -9815,20 +9813,6 @@ volume_db = -3.0
 max_distance = 1200.0
 bus = &"Sfx"
 
-[node name="Mobs" type="Node2D" parent="."]
-
-[node name="EnemyKnight" parent="Mobs" groups=["Persist"] instance=ExtResource("19_ww571")]
-position = Vector2(5618, -172)
-
-[node name="EnemyKnight2" parent="Mobs" groups=["Persist"] instance=ExtResource("19_ww571")]
-position = Vector2(9754, 590)
-
-[node name="EnemyWarrior" parent="Mobs" groups=["Persist"] instance=ExtResource("20_6gk2o")]
-position = Vector2(3955, 592)
-
-[node name="KnightBoss" parent="Mobs" instance=ExtResource("23_xlvgf")]
-position = Vector2(10911, 555)
-
 [node name="Items" type="Node2D" parent="."]
 
 [node name="HealthPotion" parent="Items" instance=ExtResource("19_0dkdr")]
@@ -9839,6 +9823,20 @@ position = Vector2(5786, -27)
 
 [node name="HealthPotion3" parent="Items" instance=ExtResource("19_0dkdr")]
 position = Vector2(349, 638)
+
+[node name="Mobs" type="Node2D" parent="."]
+
+[node name="EnemyKnight" parent="Mobs" groups=["Persist"] instance=ExtResource("19_ww571")]
+position = Vector2(5618, -172)
+
+[node name="EnemyKnight2" parent="Mobs" groups=["Persist"] instance=ExtResource("19_ww571")]
+position = Vector2(9754, 590)
+
+[node name="EnemyKnight3" parent="Mobs" groups=["Persist"] instance=ExtResource("19_ww571")]
+position = Vector2(10725, 596)
+
+[node name="EnemyWarrior" parent="Mobs" groups=["Persist"] instance=ExtResource("20_6gk2o")]
+position = Vector2(3955, 592)
 
 [node name="Player" type="Node2D" parent="."]
 
@@ -9926,7 +9924,9 @@ shape = SubResource("RectangleShape2D_gan0a")
 position = Vector2(11200, 346)
 collision_layer = 0
 collision_mask = 2
-script = SubResource("GDScript_6mlcn")
+script = ExtResource("28_24n4y")
+playerDirection = 1
+playerSpawnPosition = Vector2(442, 68)
 
 [node name="CastleGate" type="Sprite2D" parent="TriggerAreas/CastleGate"]
 visible = false
@@ -9948,6 +9948,7 @@ theme = ExtResource("15_7mqd8")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 22
+script = SubResource("GDScript_x6qtx")
 
 [node name="GateSounds" type="AudioStreamPlayer2D" parent="TriggerAreas/CastleGate"]
 stream = ExtResource("32_k300e")

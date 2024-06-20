@@ -989,8 +989,9 @@ script = ExtResource("1_dcpwk")
 position = Vector2(0, -1)
 scale = Vector2(3.25103, 3.48375)
 sprite_frames = SubResource("SpriteFrames_3y0sb")
-animation = &"run"
+animation = &"idle"
 autoplay = "idle"
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -1034,7 +1035,6 @@ scale = Vector2(1.31023, 1.3574)
 shape = SubResource("RectangleShape2D_rqgag")
 
 [node name="Detector" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 

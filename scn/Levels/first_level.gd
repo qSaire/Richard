@@ -11,8 +11,6 @@ var is_nearCastle = false
 
 @onready var player = find_child("Player").find_child("PlayerChar")
 @onready var healthBar = get_node(^"/root/SceneTransition/PlayerUI/HealthBar")
-@onready var playerDirection = $TriggerAreas/TransitionToDungeon.playerDirection
-@onready var playerSpawnPosition = $TriggerAreas/TransitionToDungeon.playerSpawnPosition
 
 func _ready():
 	add_to_group("Persist")
@@ -49,20 +47,22 @@ func _process(_delta):
 		Global.savedLevels[0] = scene
 		var nextScene
 		if is_nearEntrance:
+			Global.playerCurrentPosition = $TriggerAreas/TransitionToDungeon.playerSpawnPosition
+			Global.playerDirection = $TriggerAreas/TransitionToDungeon.playerDirection
 			if Global.savedLevels[1] != null:
 				nextScene = Global.savedLevels[1]
 			else:
 				# on first enter in level
 				nextScene = preload("res://scn/Levels/dungeon_level.tscn")
 		elif is_nearCastle:
+			Global.playerCurrentPosition = $TriggerAreas/CastleGate.playerSpawnPosition
+			Global.playerDirection = $TriggerAreas/CastleGate.playerDirection
 			if Global.savedLevels[2] != null:
 				nextScene = Global.savedLevels[2]
 			else:
 				nextScene = preload("res://scn/Levels/castle_level.tscn")
 		
 		queue_free()
-		Global.playerCurrentPosition = playerSpawnPosition
-		Global.playerDirection = playerDirection
 		Global.playerTransitionHP = Global.playerCurrentHealth
 		SceneTransition.change_scene_to_packed(nextScene)
 	
